@@ -1,0 +1,25 @@
+{
+  "contacts": [
+    {
+    "id": 1,
+    "firstName": "Donnie",
+    "lastName": "Hanma",
+    "email": "test@test.com",
+    "phoneNumber": "0666666666"
+    },
+    {
+      "id": 2,
+      "firstName": "Donovan",
+      "lastName": "Makunouchi",
+      "email": "ippo@gmail.com",
+      "phoneNumber": "0777777777"
+    },
+    {
+      "id": 3,
+      "firstName": "Luffy",
+      "lastName": "Monkey",
+      "email": "luffy@mugiwara.com",
+      "phoneNumber": "0154748699"
+    }
+  ]
+}

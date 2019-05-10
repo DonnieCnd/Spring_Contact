@@ -1,3 +1,10 @@
-<p>
-  contact-list works!
-</p>
+<div class="container-fluid">
+  <div *ngFor="let contact of contacts | keyvalue">
+    <div class="letter"><strong>{{contact.key}}</strong></div>
+    <br>
+    <div *ngFor="let item of contact.value">
+      {{item.firstName}}
+      <strong>{{item.lastName}}</strong>
+      <hr>
+    </div>
+</div>
