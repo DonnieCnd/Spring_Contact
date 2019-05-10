@@ -14,8 +14,6 @@ export class ContactListComponent implements OnInit {
   url: string = "assets/mocks/myJSONfile.json";
   data: any;
   contacts = {};
-  finalContacts = [];
-  contactsProps;
 
   ngOnInit() {
     this.httpClient.get(this.url).subscribe(result => {
@@ -35,13 +33,5 @@ export class ContactListComponent implements OnInit {
      
       this.contacts[letter].push(contact);
     }
-    console.log(this.contacts);
-    this.contactsProps = Object.keys(this.contacts);
-    console.log(this.contactsProps);
-    for(let prop of this.contactsProps){
-    this.finalContacts.push(this.contacts[prop])
-     
-    }
-    console.log(this.finalContacts)
   }
 }
