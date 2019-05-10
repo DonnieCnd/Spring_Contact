@@ -13,7 +13,6 @@ import javax.persistence.Id;
 @Getter
 @Setter
 public class ContactEntity {
-
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
