@@ -12,7 +12,7 @@
     <div class="col">
       <div class="input-icon">
         <span class="fa fa-search search-icon"></span>
-        <input id="searchbar" class="form-control mr-sm-2 has-search" type="search" placeholder="Search" aria-label="Search">
+        <input id="searchbar" class="form-control mr-sm-2 has-search" type="search" placeholder="Search" aria-label="Search" (keyup)="filter($event.target.value)">
       </div>
     </div>
   </div>

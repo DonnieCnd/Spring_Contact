@@ -12,4 +12,8 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   }
 
+  filter(value){
+   console.log(value); 
+  }
+
 }
