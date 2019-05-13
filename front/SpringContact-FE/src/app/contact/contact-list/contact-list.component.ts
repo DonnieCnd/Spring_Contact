@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { ContactService } from '../services/contact.service';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-contact-list',
@@ -8,8 +10,13 @@ import { ContactService } from '../services/contact.service';
 })
 
 export class ContactListComponent implements OnInit {
+  @ViewChild('contactForm')
 
-  constructor(private contactService: ContactService) { }
+  contactForm = NgForm;
+  modalRef: BsModalRef | null;
+  modalRef2: BsModalRef;
+
+  constructor(private contactService: ContactService, private _MODAL_SERVICE: BsModalService) { }
 
   contacts: any;
 
@@ -19,5 +26,22 @@ export class ContactListComponent implements OnInit {
 
   getData(){
     this.contactService.retrieveContactsAndFormatData().subscribe(res => this.contacts = res);
+  }
+  openUpdateModal(template: TemplateRef<any>) {
+    this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
+  }
+  openDeleteModal(template: TemplateRef<any>) {
+    this.modalRef2 = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
+    this.modalRef.hide();
+    this.modalRef = null;
+  }
+  openContactCard(template: TemplateRef<any>) {
+    this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
+  }
+  createOrUpdateContact() {
+    this.modalRef.hide();
+  }
+  deleteContact() {
+    this.modalRef2.hide();
   }
 }

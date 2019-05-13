@@ -13,7 +13,6 @@ export class HeaderComponent implements OnInit {
 
   contactForm = NgForm;
   modalSup: BsModalRef;
-  updating = false;
 
   constructor(private _MODAL_SERVICE: BsModalService) { }
 
@@ -21,15 +20,10 @@ export class HeaderComponent implements OnInit {
   }
 
   addContact(template: TemplateRef<any>) {
-    this.updating = false;
     this.modalSup = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-success'}));
   }
-  openUpdateModal(template: TemplateRef<any>) {
-    this.updating = true;
-    this.modalSup = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
-  }
 
-  createOrUpdateSupplier() {
+  createOrUpdateContact() {
     this.modalSup.hide();
   }
 
