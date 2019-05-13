@@ -20,6 +20,27 @@
             "lastName": "Statham",
             "phoneNumber": "05",
             "email": "jason@gmail.com"
-        }
+        },
+        {
+            "id": 4,
+            "firstName": "Donnie",
+            "lastName": "Hanma",
+            "email": "test@test.com",
+            "phoneNumber": "0666666666"
+            },
+            {
+              "id": 5,
+              "firstName": "Donovan",
+              "lastName": "Makunouchi",
+              "email": "ippo@gmail.com",
+              "phoneNumber": "0777777777"
+            },
+            {
+              "id": 6,
+              "firstName": "Luffy",
+              "lastName": "Monkey",
+              "email": "luffy@mugiwara.com",
+              "phoneNumber": "0154748699"
+            }
     ]
 }
