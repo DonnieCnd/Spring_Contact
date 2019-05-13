@@ -5,7 +5,7 @@
       <h1 class="search">Contacts</h1>
     </div>
     <div class="plus col-4">
-      <i style="font-size:24px" class="fa">&#xf067;</i>
+      <i style="font-size:24px" class="fa" (click)="addContact(suppTemplate)">&#xf067;</i>
     </div>
   </div>
   <div class="row row-search">
@@ -16,4 +16,49 @@
       </div>
     </div>
   </div>
+  <ng-template class="modal-dialog" #suppTemplate>
+    <form class="" #contactForm="ngForm" (ngSubmit)="createOrUpdateContact()">
+      <div class="modal-header">
+        <h2>Create new contact</h2>
+      </div>
+      <div class="modal-body">
+        <fieldset>
+          <legend>The contact</legend>
+          <br>
+          <div class="row col-sm-12" style="margin: auto">
+            <div class="form-group col-sm-12">
+              <label for="lastname">Last name</label>
+              <input class="form-control" id="lastname" type="text" name="lastname" placeholder="Enter a last name"
+                     [(ngModel)]="contact" #contactLname="ngModel"/>
+            </div>
+            <div class="form-group col-sm-12">
+              <label for="firstname">First name</label>
+              <input class="form-control" id="firstname" type="text" name="firstname" placeholder="Enter a first name"
+                     [(ngModel)]="contact" #contactFname="ngModel"/>
+            </div>
+          </div>
+          <div class="row col-sm-12" style="margin: auto">
+            <div class="form-group col-sm-12">
+              <label for="Cphone">Phone number</label>
+              <input class="form-control" id="Cphone" type="text" name="Cphone" placeholder="Enter a phone number"
+                     [(ngModel)]="contact" #contactCPhone="ngModel"/>
+            </div> 
+            <div class="form-group col-sm-12">
+              <label for="email">E-mail</label>
+              <input class="form-control" id="email" type="text" name="email" placeholder="Enter an e-mail"
+                     [(ngModel)]="contact" #contactemail="ngModel"/>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <div class="modal-footer justify-content-between" *ngIf="updating == false">
+        <a class="btn btn-secondary float-left" style="color: #ffffff!important;" (click)="modalSup.hide()">Cancel</a>
+        <button class="btn btn-success float-right">Create</button>
+      </div>
+      <div class="modal-footer justify-content-between" *ngIf="updating == true">
+        <a class="btn btn-secondary float-left" style="color: #ffffff!important;" (click)="modalSup.hide()">Cancel</a>
+        <button class="btn btn-info float-right" type="submit">Update</button>
+      </div>
+    </form>
+  </ng-template>
 </div>
