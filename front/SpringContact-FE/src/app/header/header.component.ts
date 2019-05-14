@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {NgForm} from '@angular/forms';
+import { ContactService } from '../contact/services/contact.service';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,7 @@ export class HeaderComponent implements OnInit {
   contactForm = NgForm;
   modalSup: BsModalRef;
 
-  constructor(private _MODAL_SERVICE: BsModalService) { }
+  constructor(private _MODAL_SERVICE: BsModalService, private contactService: ContactService) { }
 
   ngOnInit() {
   }
@@ -25,6 +26,10 @@ export class HeaderComponent implements OnInit {
 
   createOrUpdateContact() {
     this.modalSup.hide();
+  }
+
+  filter(value){
+    this.contactService.setFiltering(value);
   }
 
 }

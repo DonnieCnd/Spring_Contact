@@ -19,14 +19,23 @@ export class ContactListComponent implements OnInit {
   constructor(private contactService: ContactService, private _MODAL_SERVICE: BsModalService) { }
 
   contacts: any;
+  isFiltered = false;
+  filtering: any;
 
   ngOnInit() {
     this.getData();
+    this.contactService.filteringObservable.subscribe(res => {
+      this.isFiltered = res.isFiltered;
+      this.filtering = res;
+    })
   }
 
   getData(){
-    this.contactService.retrieveContactsAndFormatData().subscribe(res => this.contacts = res);
-  }
+    this.contactService.retrieveContactsAndFormatData().subscribe(res => {
+      this.contacts = res;
+    });
+  
+    }
   openUpdateModal(template: TemplateRef<any>) {
     this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
   }
@@ -44,4 +53,5 @@ export class ContactListComponent implements OnInit {
   deleteContact() {
     this.modalRef2.hide();
   }
+
 }
