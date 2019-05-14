@@ -102,8 +102,9 @@
 
 <ng-template #elseBlock>
     <div *ngIf="isEmpty(filtering?.data)">
-        Not Found !!!
-      </div>
+        <img src="assets/img/shrugging.png">
+        <p><strong>Oops you don't have any contact with this name</strong></p>
+    </div>
     
 
   <div *ngFor="let contact of filtering?.data | keyvalue">
