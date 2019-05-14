@@ -101,8 +101,13 @@
 </div>
 
 <ng-template #elseBlock>
+    <div *ngIf="isEmpty(filtering?.data)">
+        Not Found !!!
+      </div>
+    
 
   <div *ngFor="let contact of filtering?.data | keyvalue">
+      
     <div class="letter"><strong>{{contact.key}}</strong></div>
     <br>
     <div class="contactLine" *ngFor="let item of contact.value; index as i">
