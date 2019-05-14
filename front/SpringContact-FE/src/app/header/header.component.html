@@ -18,7 +18,7 @@
   </div>
   <!-- Create Contact Modal -->
   <ng-template class="modal-dialog" #suppTemplate>
-    <form class="" #contactForm="ngForm" (ngSubmit)="createOrUpdateContact()">
+    <form #contactForm="ngForm" (ngSubmit)="createContact(contactModel)">
       <div class="modal-header">
         <h2>Create new contact</h2>
       </div>
@@ -30,24 +30,25 @@
             <div class="form-group col-sm-12">
               <label for="firstname">First name</label>
               <input class="form-control" id="firstname" type="text" name="firstname" placeholder="Enter a first name"
-                     [(ngModel)]="contact" #contactFname="ngModel"/>
+                     [(ngModel)]="contactModel.firstName" #contactFname="ngModel"/>
             </div>
             <div class="form-group col-sm-12">
               <label for="lastname">Last name</label>
               <input class="form-control" id="lastname" type="text" name="lastname" placeholder="Enter a last name"
-                     [(ngModel)]="contact" #contactLname="ngModel"/>
+                     [(ngModel)]="contactModel.lastName" #contactLname="ngModel"/>
+                    
             </div>
           </div>
           <div class="row col-sm-12" style="margin: auto">
             <div class="form-group col-sm-12">
               <label for="Cphone">Phone number</label>
-              <input class="form-control" id="Cphone" type="text" name="phone" placeholder="Enter a phone number"
-                     [(ngModel)]="contact" #contactCPhone="ngModel"/>
+              <input class="form-control" id="phone" type="text" name="phone" placeholder="Enter a phone number"
+                     [(ngModel)]="contactModel.phoneNumber" #contactCPhone="ngModel"/>
             </div> 
             <div class="form-group col-sm-12">
               <label for="email">E-mail</label>
               <input class="form-control" id="email" type="text" name="email" placeholder="Enter an e-mail"
-                     [(ngModel)]="contact" #contactemail="ngModel"/>
+                     [(ngModel)]="contactModel.email" #contactemail="ngModel"/>
             </div>
           </div>
         </fieldset>
@@ -55,7 +56,10 @@
       <div class="modal-footer justify-content-between">
         <a class="btn btn-secondary float-left" style="color: #ffffff!important;" (click)="modalSup.hide()">Cancel</a>
         <button class="btn btn-success float-right">Create</button>
+        
       </div>
+      
+
     </form>
   </ng-template>
 </div>

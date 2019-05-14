@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {NgForm} from '@angular/forms';
 import { ContactService } from '../contact/services/contact.service';
+import { ContactModel } from '../contact/models/contact.model';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +14,7 @@ export class HeaderComponent implements OnInit {
   @ViewChild('contactForm')
 
   contactForm = NgForm;
+  contactModel = new ContactModel();
   modalSup: BsModalRef;
 
   constructor(private _MODAL_SERVICE: BsModalService, private contactService: ContactService) { }
@@ -32,4 +34,14 @@ export class HeaderComponent implements OnInit {
     this.contactService.setFiltering(value);
   }
 
+  createContact(body){
+    this.contactService.createContact(body).subscribe(res => {
+      console.log('success', res);
+    },
+    (error) => {
+      console.log('an error occured during post request', error);
+    })
+    this.modalSup.hide();
+  }
+  
 }

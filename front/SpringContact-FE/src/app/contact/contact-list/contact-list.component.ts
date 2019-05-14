@@ -33,6 +33,7 @@ export class ContactListComponent implements OnInit {
   getData(){
     this.contactService.retrieveContactsAndFormatData().subscribe(res => {
       this.contacts = res;
+      console.log(this.contacts);
     });
   
     }
@@ -50,12 +51,17 @@ export class ContactListComponent implements OnInit {
   createOrUpdateContact() {
     this.modalRef.hide();
   }
-  deleteContact() {
-    this.modalRef2.hide();
-  }
 
   isEmpty(object){
     return Object.keys(object).length === 0;
+  }
+
+  deleteContact(id){
+    this.contactService.deleteContactById(id).subscribe(res => {
+      this.getData(); 
+      console.log(res);
+    });
+    this.modalRef2.hide();
   }
 
 }

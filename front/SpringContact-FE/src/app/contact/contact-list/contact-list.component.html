@@ -60,7 +60,7 @@
     </ng-template>
     <!-- Delete Contact modal -->
     <ng-template class="modal-dialog" #supp2Template>
-      <form class="" #contactForm="ngForm" (ngSubmit)="deleteContact()">
+      <form class="" #contactForm="ngForm" (ngSubmit)="deleteContact(item.id);">
         <div class="modal-header">
           <h2>Delete contact</h2>
         </div>
