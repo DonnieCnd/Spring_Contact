@@ -20,15 +20,16 @@ export class ContactService {
   retrieveContactsAndFormatData(){
     return this.httpClient.get(this.url).pipe(map(res => {
       this.data = res
-      return this.formatData(res.contacts);
+      return this.formatData(res);
   }));
 }
   
   formatData(data){
     
+    
     let results = {}; 
     
-    for(let contact of data){
+    for(let contact of data.contacts){
       const letter = contact.lastName.charAt(0);
       
       if(!results[letter])
@@ -36,14 +37,16 @@ export class ContactService {
       
       results[letter].push(contact);    
     }
-    
     return results;
+
   }
 
   setFiltering(value){
     // value.length > 0 ? this.filtering.next({"isFiltered": true, "value": value}) : this.filtering.next({"isFiltered": false, "value": ""})
-    if(value.length > 0){  
-      let data = this.formatData(this.data.contacts.filter(x => x.firstName.toLowerCase().includes(value.toLowerCase()) || x.lastName.toLowerCase().includes(value.toLowerCase())))
+    if(value.length > 0){
+      let filtered = { contacts: []};
+      filtered.contacts = this.data.contacts.filter(x => x.firstName.toLowerCase().includes(value.toLowerCase())) 
+      let data = this.formatData(filtered)
       this.filtering.next({isFiltered: true, value: value, data: data});
     }
     else{

@@ -54,4 +54,8 @@ export class ContactListComponent implements OnInit {
     this.modalRef2.hide();
   }
 
+  isEmpty(object){
+    return Object.keys(object).length === 0;
+  }
+
 }
