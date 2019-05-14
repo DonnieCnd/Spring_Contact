@@ -39,3 +39,6 @@
 .input-icon .has-search {
     padding-left: 2.375rem;
 }
+.modal-header {
+    background-color: rgb(252, 250, 250);
+}
