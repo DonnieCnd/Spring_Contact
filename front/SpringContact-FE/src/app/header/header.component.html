@@ -18,7 +18,7 @@
   </div>
   <!-- Create Contact Modal -->
   <ng-template class="modal-dialog" #suppTemplate>
-    <form #contactForm="ngForm" (ngSubmit)="createContact(contactModel)">
+    <form #contactForm="ngForm" (ngSubmit)="createContact(contactModel); contactForm.reset()">
       <div class="modal-header">
         <h2>Create new contact</h2>
       </div>
