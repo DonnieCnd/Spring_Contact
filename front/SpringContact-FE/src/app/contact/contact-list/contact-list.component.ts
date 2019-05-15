@@ -66,7 +66,6 @@ export class ContactListComponent implements OnInit {
   deleteContact(id){
     this.contactService.deleteContactById(id).subscribe(res => {
       this.getData(); 
-      console.log(res);
     });
     this.modalRef2.hide();
   }
@@ -74,7 +73,6 @@ export class ContactListComponent implements OnInit {
   updateContact(id, body) {
     this.contactService.updateContact(id, body).subscribe(res => {
       this.getData();
-      console.log(res);
     });
     this.modalRef.hide();
   }
