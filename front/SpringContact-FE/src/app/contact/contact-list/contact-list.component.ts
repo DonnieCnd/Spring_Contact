@@ -36,7 +36,7 @@ export class ContactListComponent implements OnInit {
       console.log(this.contacts);
     });
   
-    }
+  }
   openUpdateModal(template: TemplateRef<any>) {
     this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
   }
@@ -62,6 +62,14 @@ export class ContactListComponent implements OnInit {
       console.log(res);
     });
     this.modalRef2.hide();
+  }
+  
+  updateContact(id, body) {
+    this.contactService.updateContact(id, body).subscribe(res => {
+      this.getData();
+      console.log(res);
+    });
+    this.modalRef.hide();
   }
 
 }
