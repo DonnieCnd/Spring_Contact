@@ -19,8 +19,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(private _MODAL_SERVICE: BsModalService, private contactService: ContactService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   addContact(template: TemplateRef<any>) {
     this.modalSup = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-success'}));
@@ -37,11 +36,12 @@ export class HeaderComponent implements OnInit {
   createContact(body){
     this.contactService.createContact(body).subscribe(res => {
       console.log('success', res);
+      this.contactService.notifyContactListComponent(true);
     },
     (error) => {
       console.log('an error occured during post request', error);
     })
     this.modalSup.hide();
+    
   }
-  
 }

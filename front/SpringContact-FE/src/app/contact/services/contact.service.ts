@@ -18,11 +18,12 @@ export class ContactService {
   filtering: BehaviorSubject<any> = new BehaviorSubject<any>({isFiltered: false, value : ""});
   filteringObservable = this.filtering.asObservable();
   data;
+  notify: BehaviorSubject<any> = new BehaviorSubject<any>({ update: false })
+  notifyObservable = this.notify.asObservable();
 
   retrieveContactsAndFormatData(){
     return this.httpClient.get(this.serverUrl).pipe(map(res => {
-      console.log(res)
-      this.data = res
+      this.data = res;
       return this.formatData(res);
   }));
 }
@@ -31,7 +32,8 @@ export class ContactService {
     let results = {}; 
     
     for(let contact of data){
-      const letter = contact.lastName.charAt(0);
+      
+      const letter = contact.lastName.charAt(0).toUpperCase();
       
       if(!results[letter])
         results[letter] = [];
@@ -46,7 +48,7 @@ export class ContactService {
     if(value.length > 0){
       let filtered = this.data.filter(x => x.firstName.toLowerCase().includes(value.toLowerCase()) || x.lastName.toLowerCase().includes(value.toLowerCase()));
       let data = this.formatData(filtered);
-      this.filtering.next({isFiltered: true, value: value, data: data});
+      this.filtering.next({ isFiltered: true, value: value, data: data });
     }
     else{
       this.filtering.next({isFiltered: false})
@@ -55,6 +57,7 @@ export class ContactService {
   
   createContact(body: ContactModel){
     return this.httpClient.post(this.serverUrl, body);
+
   }
   
   deleteContactById(id){
@@ -65,5 +68,8 @@ export class ContactService {
     return this.httpClient.put((this.serverUrl + id), body)
   }
 
+  notifyContactListComponent(boolean){
+    this.notify.next({ updated: boolean })
+  }
 
 }

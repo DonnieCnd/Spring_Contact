@@ -24,6 +24,10 @@ export class ContactListComponent implements OnInit {
 
   ngOnInit() {
     this.getData();
+    this.contactService.notifyObservable.subscribe(res => {
+      console.log(res)
+      res.updated === true ? this.getData() : ''
+    })
     this.contactService.filteringObservable.subscribe(res => {
       this.isFiltered = res.isFiltered;
       this.filtering = res;
@@ -40,14 +44,17 @@ export class ContactListComponent implements OnInit {
   openUpdateModal(template: TemplateRef<any>) {
     this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
   }
+  
   openDeleteModal(template: TemplateRef<any>) {
     this.modalRef2 = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
     this.modalRef.hide();
     this.modalRef = null;
   }
+  
   openContactCard(template: TemplateRef<any>) {
     this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
   }
+  
   createOrUpdateContact() {
     this.modalRef.hide();
   }
@@ -59,7 +66,6 @@ export class ContactListComponent implements OnInit {
   deleteContact(id){
     this.contactService.deleteContactById(id).subscribe(res => {
       this.getData(); 
-      console.log(res);
     });
     this.modalRef2.hide();
   }
@@ -67,9 +73,7 @@ export class ContactListComponent implements OnInit {
   updateContact(id, body) {
     this.contactService.updateContact(id, body).subscribe(res => {
       this.getData();
-      console.log(res);
     });
     this.modalRef.hide();
   }
-
 }
