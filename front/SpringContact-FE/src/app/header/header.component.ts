@@ -16,6 +16,8 @@ export class HeaderComponent implements OnInit {
   contactForm = NgForm;
   contactModel = new ContactModel();
   modalSup: BsModalRef;
+  modalRef: BsModalRef;
+  modalRef2: BsModalRef;
 
   constructor(private _MODAL_SERVICE: BsModalService, private contactService: ContactService) { }
 
@@ -43,5 +45,13 @@ export class HeaderComponent implements OnInit {
     })
     this.modalSup.hide();
     
+  }
+  openDisplayGroupModal(template: TemplateRef<any>) {
+    this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
+  }
+  openNewGroupModal(template: TemplateRef<any>) {
+    this.modalRef2 = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
+    this.modalRef.hide();
+    this.modalRef = null;
   }
 }

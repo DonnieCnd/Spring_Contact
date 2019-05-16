@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row row-1">
     <div class="people col-4">
-      <i style="font-size:24px" class="fa fa-users" aria-hidden="true"></i>
+      <i style="font-size:24px" class="fa fa-users" aria-hidden="true" (click)="openDisplayGroupModal(supp2Template)"></i>
     </div>
     <div class="colSearch col-4">
       <h1 class="search">Contacts</h1>
@@ -57,11 +57,78 @@
       </div>
       <div class="modal-footer justify-content-between">
         <a class="btn btn-secondary float-left" style="color: #ffffff!important;" (click)="modalSup.hide()">Cancel</a>
-        <button class="btn btn-success float-right">Create</button>
-        
+        <button class="btn btn-success float-right">Create</button>       
       </div>
-      
-
     </form>
   </ng-template>
+  <!-- Display group modal -->
+  <ng-template class="modal-dialog" #supp2Template>
+    <form class="" #contactForm="ngForm" (ngSubmit)="createOrUpdateContact()">
+      <div class="modal-header">
+        <h2>Group(s)</h2>
+        <i style="font-size:22px" class="addGroup fa" id="add" aria-hidden="true" (click)="openNewGroupModal(supp3Template)" >&#xf067;</i>
+      </div>
+      <div class="modal-body2">
+        <div class="not-found row">
+          <div class="image col-12">
+            <img src="assets/img/shrugging.png">
+          </div>
+          <p><strong>Oops you don't have any group, add one !</strong></p>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <a class="btn btn-secondary float-right" style="color: #ffffff!important;" (click)="modalRef.hide()">Cancel</a>
+      </div>
+    </form>
+  </ng-template>
+  <!-- New Group Modal -->
+  <ng-template class="modal-dialog" #supp3Template>
+      <form #contactForm="ngForm" (ngSubmit)="createContact(contactModel); contactForm.reset()">
+        <div class="modal-header">
+          <h2>Create new group</h2>
+        </div>
+        <div class="modal-body">
+          <fieldset>
+            <br>
+            <div class="row col-sm-12" style="margin: auto">
+              <div class="form-group col-sm-12">
+                <label for="firstname">Group's Name</label>
+                <input class="form-control" id="firstname" type="text" name="firstname" placeholder="Enter a group's name"
+                       [(ngModel)]="contactModel.firstName" #contactFname="ngModel"/>
+              </div>
+            </div>
+            <div class="row col-sm-12" style="margin: auto">
+              <div class="input-icon form-group col-sm-12">
+                <label>Add contact</label>
+                <span class="fa fa-search search-icon"></span>
+                <input id="searchbar" class="form-control mr-sm-2 has-search" type="search" placeholder="Search" aria-label="Search" (keyup)="filter($event.target.value)">
+              </div>
+            </div>
+            <div *ngIf="!isFiltered; else elseBlock">
+            <div *ngFor="let contact of contacts | keyvalue">
+              <div class="letter"><strong>{{contact.key}}</strong></div>
+              <br>
+              <div class="contactLine" *ngFor="let item of contact.value; index as i">
+                <div class="row">
+                  <div class="col-sm-9">
+                    <div class="contactName" (click)="openContactCard(supp3Template)">{{item.firstName}} <strong>{{item.lastName}}</strong>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <i class="fa fa-pencil float-right" id="pencil" aria-hidden="true" (click)="openUpdateModal(suppTemplate)"></i></div>
+                  </div>
+                
+                  <hr *ngIf="i != contact.value.length-1">
+                  <br *ngIf="i == contact.value.length-1">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <a class="btn btn-secondary float-left" style="color: #ffffff!important;" (click)="modalRef2.hide(); openDisplayGroupModal(supp2Template)">Cancel</a>
+          <button class="btn btn-success float-right">Create</button>       
+        </div>
+      </form>
+    </ng-template>
 </div>
