@@ -116,7 +116,8 @@
                 placeholder="Search" 
                 aria-label="Search"
                 class="form-control"
-                (keyup)="displayMatchingContacts($event.target.value)">
+                (keyup)="displayMatchingContacts($event.target.value)"
+                (search)="resetSearchField()">
               </div>
             </div>
             

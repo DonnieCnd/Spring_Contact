@@ -18,9 +18,9 @@ export class ContactService {
 
   filtering: BehaviorSubject<any> = new BehaviorSubject<any>({isFiltered: false, value : ""});
   filteringObservable = this.filtering.asObservable();
-  data;
   notify: BehaviorSubject<any> = new BehaviorSubject<any>({ update: false })
   notifyObservable = this.notify.asObservable();
+  data;
 
   retrieveContactsAndFormatData(){
     return this.httpClient.get(this.serverUrl).pipe(map(res => {
@@ -39,13 +39,15 @@ export class ContactService {
     
     for(let contact of data){
       
-      const letter = contact.lastName.charAt(0).toUpperCase();
-      
+      if(contact.lastName){
+        const letter = contact.lastName.charAt(0).toUpperCase();
+
       if(!results[letter])
         results[letter] = [];
       
       results[letter].push(contact);    
     }
+  }
     return results;
   }
 

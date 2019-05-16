@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
   selected: any;
   contacts: any;
   matchingContacts;
-  isFiltered= false;
+  isFiltered: boolean = false;
 
   constructor(private _MODAL_SERVICE: BsModalService, private contactService: ContactService) { }
 
@@ -65,21 +65,22 @@ export class HeaderComponent implements OnInit {
   }
 
   displayMatchingContacts(value){
-    // this.isFiltered = true;
-    if(value.length > 0){ 
+    if(value != ''){ 
       this.matchingContacts = this.contacts.filter(x => {
-        
-        return x.firstName.slice(0,value.length).toLowerCase() === value.toLowerCase() || x.lastName.slice(0,value.length).toLowerCase() === value.toLowerCase();
+        if(x.lastName){ // contact lastName is not mandatory, avoid error when lastName is not filled
+          return x.firstName.substring(0, value.length).toLowerCase() === value.toLowerCase() || x.lastName.substring(0, value.length).toLowerCase() === value.toLowerCase();
+        }
       })
-    this.isFiltered = true;
-  }
-  else{
-    this.isFiltered = false;
+      this.isFiltered = true;
+    }  
+    else{
+      this.isFiltered = false;
+    }
   }
 
-    // if(value.length < 1){
-    //   this.isFiltered = false;
-    // }
-    console.log(this.matchingContacts);
-    }
+  resetSearchField(){
+    this.isFiltered = false;
+    this.matchingContacts = [];
+  }
+
 }
