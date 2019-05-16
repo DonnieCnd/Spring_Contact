@@ -18,10 +18,19 @@ export class HeaderComponent implements OnInit {
   modalSup: BsModalRef;
   modalRef: BsModalRef;
   modalRef2: BsModalRef;
+  selected: any;
+  contacts: any;
+  matchingContacts;
+  isFiltered= false;
 
   constructor(private _MODAL_SERVICE: BsModalService, private contactService: ContactService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.contactService.getData().subscribe(res => {
+      this.contacts = res;
+      console.log(this.contacts);
+    });
+  }
 
   addContact(template: TemplateRef<any>) {
     this.modalSup = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-success'}));
@@ -54,4 +63,23 @@ export class HeaderComponent implements OnInit {
     this.modalRef.hide();
     this.modalRef = null;
   }
+
+  displayMatchingContacts(value){
+    // this.isFiltered = true;
+    if(value.length > 0){ 
+      this.matchingContacts = this.contacts.filter(x => {
+        
+        return x.firstName.slice(0,value.length).toLowerCase() === value.toLowerCase() || x.lastName.slice(0,value.length).toLowerCase() === value.toLowerCase();
+      })
+    this.isFiltered = true;
+  }
+  else{
+    this.isFiltered = false;
+  }
+
+    // if(value.length < 1){
+    //   this.isFiltered = false;
+    // }
+    console.log(this.matchingContacts);
+    }
 }

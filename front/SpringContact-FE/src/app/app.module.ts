@@ -8,6 +8,7 @@ import { ContactListComponent } from './contact/contact-list/contact-list.compon
 import { HttpClientModule } from '@angular/common/http';
 import { TooltipModule, BsModalRef, ModalModule } from 'ngx-bootstrap';
 import { FormsModule } from '@angular/forms';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
     FormsModule,
     ModalModule.forRoot(),
-    TooltipModule.forRoot()
+    TooltipModule.forRoot(),
+    TypeaheadModule.forRoot()
   ],
   providers: [
     HttpClientModule,

@@ -25,8 +25,8 @@ export class ContactListComponent implements OnInit {
   ngOnInit() {
     this.getData();
     this.contactService.notifyObservable.subscribe(res => {
-      console.log(res)
-      res.updated === true ? this.getData() : ''
+      console.log(res);
+      res.updated === true ? this.getData() : '';
     })
     this.contactService.filteringObservable.subscribe(res => {
       this.isFiltered = res.isFiltered;
@@ -71,9 +71,14 @@ export class ContactListComponent implements OnInit {
   }
   
   updateContact(id, body) {
+    // const contactBody = { id: id }
     this.contactService.updateContact(id, body).subscribe(res => {
-      this.getData();
-    });
+    //   this.getData();
+    //   console.log(res)
+      
+  
+  
+  });
     this.modalRef.hide();
   }
 }

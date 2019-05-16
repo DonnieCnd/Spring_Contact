@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from "rxjs/operators";
 import { BehaviorSubject } from 'rxjs';
 import { ContactModel } from '../models/contact.model';
+import { getDate } from 'ngx-bootstrap/chronos/utils/date-getters';
 
 
 @Injectable({
@@ -27,6 +28,11 @@ export class ContactService {
       return this.formatData(res);
   }));
 }
+
+
+  getData(){
+    return this.httpClient.get(this.serverUrl)
+  }
   
   formatData(data){
     let results = {}; 
@@ -64,12 +70,12 @@ export class ContactService {
     return this.httpClient.delete(this.serverUrl + '/' + id);
   }
 
-  updateContact(id, body: ContactModel){
-    return this.httpClient.put((this.serverUrl + id), body)
+  updateContact(id, body){
+    return this.httpClient.put((this.serverUrl + '/' + id), body)
   }
 
-  notifyContactListComponent(boolean){
-    this.notify.next({ updated: boolean })
+  notifyContactListComponent(value: boolean){
+    this.notify.next({ updated: value })
   }
 
 }
