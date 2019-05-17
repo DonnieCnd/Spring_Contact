@@ -101,26 +101,15 @@
               <div class="input-icon form-group col-sm-12">
                 <label>Add contact</label>
                 <span class="fa fa-search search-icon"></span>
-                <input id="searchbar" class="form-control mr-sm-2 has-search" type="search" placeholder="Search" aria-label="Search" (keyup)="filter($event.target.value)">
-              </div>
-            </div>
-            <div *ngIf="!isFiltered; else elseBlock">
-            <div *ngFor="let contact of contacts | keyvalue">
-              <div class="letter"><strong>{{contact.key}}</strong></div>
-              <br>
-              <div class="contactLine" *ngFor="let item of contact.value; index as i">
-                <div class="row">
-                  <div class="col-sm-9">
-                    <div class="contactName" (click)="openContactCard(supp3Template)">{{item.firstName}} <strong>{{item.lastName}}</strong>
-                    </div>
-                  </div>
-                  <div class="col-sm-3">
-                    <i class="fa fa-pencil float-right" id="pencil" aria-hidden="true" (click)="openUpdateModal(suppTemplate)"></i></div>
-                  </div>
-                
-                  <hr *ngIf="i != contact.value.length-1">
-                  <br *ngIf="i == contact.value.length-1">
-                </div>
+                <input id="searchbar" 
+                      name="contactName"
+                      class="form-control mr-sm-2 has-search" 
+                      placeholder="Search" 
+                      aria-label="Search" 
+                      (keyup)="filter($event.target.value)" 
+                      [(ngModel)]="selected" 
+                      [typeahead]="contacts" 
+                      typeaheadOptionField="firstName">
               </div>
             </div>
           </fieldset>

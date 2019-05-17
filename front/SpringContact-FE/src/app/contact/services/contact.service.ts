@@ -27,6 +27,10 @@ export class ContactService {
       return this.formatData(res);
   }));
 }
+
+  getData() {
+    return this.httpClient.get(this.serverUrl)
+  }
   
   formatData(data){
     let results = {}; 

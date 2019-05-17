@@ -18,10 +18,17 @@ export class HeaderComponent implements OnInit {
   modalSup: BsModalRef;
   modalRef: BsModalRef;
   modalRef2: BsModalRef;
+  selected: string;
+  contacts;
 
   constructor(private _MODAL_SERVICE: BsModalService, private contactService: ContactService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.contactService.getData().subscribe(res => {
+      this.contacts = res;
+      console.log(this.contacts)
+    })
+   }
 
   addContact(template: TemplateRef<any>) {
     this.modalSup = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-success'}));
