@@ -18,7 +18,7 @@
         class="form-control mr-sm-2 has-search" 
         type="search" 
         placeholder="Search" 
-        aria-label="Search" 
+        aria-label="Search"
         (keyup)="filter($event.target.value)">
       </div>
     </div>
@@ -106,56 +106,48 @@
               <div class="input-icon form-group col-sm-12">
                 <label>Add contact</label>
                 <span class="fa fa-search search-icon"></span>
-                <input id="searchbar2" 
+                <input id="searchbar" 
+                name="search"
                 class="form-control mr-sm-2 has-search" 
                 type="search" 
                 placeholder="Search" 
                 aria-label="Search"
-                (keyup)="displayMatchingContacts($event.target.value)"
+                [(ngModel)]="searchTerm"
+                (keyup)="displayMatchingContacts(searchTerm)"
                 (search)="resetSearchField()">
               </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12" *ngIf="groupContact?.length > 0">
             
-                <h3>Your contacts</h3>
-            
-                <table class="table table-responsive-sm table-bordered table-sm">
-                  <thead>
-                  <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Phone</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr *ngFor="let contact of groupContact; let i=index;">
-                    <td>{{contact.firstName}}</td>
-                    <td>{{contact.lastName}}</td>
-                    <td>{{contact.phoneNumber}}</td>
-                    <td>
-                      <a class="btn btn-primary" (click)="updateProjectManager(i, projectManagerModal)"><i
-                        class="fa fa-pencil fa-lg"></i>Update</a>
-                      <a class="btn btn-danger" (click)="removeProjectManager(i)"><i class="fa fa-remove fa-lg"></i>Remove</a>
-                    </td>
-                  </tr>
-                  </tbody>
-                </table>           
-              </div>
-            </div>   
-          </fieldset>
-        </div>
+          
 
-        <div *ngIf="isFiltered">
-          <div *ngFor="let contact of matchingContacts">
-            <div class="matchedContact">
-              <span>{{ contact.firstName }}</span>
-              <span>{{ contact.lastName }}</span>
-              <i style="font-size:12px" class="fa" (click)="addContactInGroup()">&#xf067;</i>
+        <div class="matching-contacts-results row col-sm-12" style="margin: auto" *ngIf="isFiltered">
+          <div *ngFor="let contact of matchingContacts" class="matched-contact col-sm-12" (click)="log(contact)">
+              <div class="matched-contact-name">
+                <span class="firstName">{{ contact.firstName }}</span>
+                <strong style="margin-left: 5px;">{{ contact.lastName }}</strong>
+              </div>
             </div>
-          </div>
+          
           
         </div>
+
+        <div class="group-contacts-results row col-sm-12" style="margin: auto" *ngIf="selectedContacts.length > 0">
+          <div *ngFor="let contact of selectedContacts" class="groupContact col-sm-12">
+            <div class="group-contact-name">
+              <span class="firstName">{{ contact.firstName }}</span>
+              <strong style="margin-left: 5px;">{{ contact.lastName }}</strong>
+            </div>
+            <div class="group-contact-delete">
+              <i class="fa fa-window-close" aria-hidden="true" (click)="deleteSelectedContact(contact.id)"></i>
+            </div>
+          </div>
+
+
+        </div>
+
+
+      </div>
+      </fieldset>
+    </div>
 
         <div class="modal-footer justify-content-between">
           <a class="btn btn-secondary float-left" style="color: #ffffff!important;" (click)="modalRef2.hide(); openDisplayGroupModal(supp2Template)">Cancel</a>

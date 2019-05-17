@@ -18,11 +18,11 @@ export class HeaderComponent implements OnInit {
   modalSup: BsModalRef;
   modalRef: BsModalRef;
   modalRef2: BsModalRef;
-  selected: any;
+  selectedContacts= [];
   contacts: any;
   matchingContacts;
   isFiltered: boolean = false;
-  groupContact: ContactModel[];
+  searchTerm: string;
 
   constructor(private _MODAL_SERVICE: BsModalService, private contactService: ContactService) { }
 
@@ -58,6 +58,8 @@ export class HeaderComponent implements OnInit {
   }
   openDisplayGroupModal(template: TemplateRef<any>) {
     this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
+    this.matchingContacts = [];
+    this.selectedContacts = [];
   }
   openNewGroupModal(template: TemplateRef<any>) {
     this.modalRef2 = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
@@ -66,6 +68,7 @@ export class HeaderComponent implements OnInit {
   }
 
   displayMatchingContacts(value){
+    // console.log(value)
     if(value != ''){ 
       this.matchingContacts = this.contacts.filter(x => {
         if(x.lastName){ // contact lastName is not mandatory, avoid error when lastName is not filled
@@ -77,28 +80,35 @@ export class HeaderComponent implements OnInit {
     else{
       this.isFiltered = false;
     }
+    // console.log(this.matchingContacts)
   }
 
   resetSearchField(){
+    this.searchTerm = '';
     this.isFiltered = false;
     this.matchingContacts = [];
   }
 
-  addContactInGroup() {
-
-    if (!this.groupContact) {
-      this.groupContact = [];
-    }
-    this.contactModel.id = this.contacts.id;
-    this.contactModel.firstName = this.contacts.firstName;
-    this.contactModel.lastName = this.contacts.lastName;
-    this.contactModel.email = this.contacts.email;
-    this.contactModel.phoneNumber = this.contacts.phoneNumber;
-
-
-    this.contacts = null;
-    this.groupContact.push(this.contactModel);
-    this.contactModel = new ContactModel();
+  log(item){
+    this.searchTerm = '';
+    this.isFiltered = false;
+    this.matchingContacts = [];
+    this.selectedContacts.push(item);
+    this.sortContactsByLastName();
   }
 
+  sortContactsByLastName(){
+    this.selectedContacts = this.selectedContacts.sort((a,b) => {
+      if(a.lastName.toLowerCase() < b.lastName.toLowerCase()){
+        return -1;
+      }
+      if(a.lastName.toLowerCase() > b.lastName.toLowerCase()){
+        return 1;
+      }
+    })
+  }
+
+  deleteSelectedContact(id) {
+    this.selectedContacts = this.selectedContacts.filter(x => x.id !== id);
+  }
 }

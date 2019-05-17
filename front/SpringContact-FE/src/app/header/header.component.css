@@ -72,3 +72,22 @@ img {
     display: flex;
     justify-content: center;
 }
+
+.matched-contact{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 30%;
+    height: 60px;
+    border: 1px solid rgb(202, 200, 200); 
+}
+
+.groupContact{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 30%;
+    height: 60px;
+    border: 1px solid rgb(49, 165, 49); 
+}
+
