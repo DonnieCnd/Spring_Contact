@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from "rxjs/operators";
 import { BehaviorSubject } from 'rxjs';
 import { ContactModel } from '../models/contact.model';
+import { getDate } from 'ngx-bootstrap/chronos/utils/date-getters';
 
 
 @Injectable({
@@ -17,9 +18,9 @@ export class ContactService {
 
   filtering: BehaviorSubject<any> = new BehaviorSubject<any>({isFiltered: false, value : ""});
   filteringObservable = this.filtering.asObservable();
-  data;
   notify: BehaviorSubject<any> = new BehaviorSubject<any>({ update: false })
   notifyObservable = this.notify.asObservable();
+  data;
 
   retrieveContactsAndFormatData(){
     return this.httpClient.get(this.serverUrl).pipe(map(res => {
@@ -28,7 +29,8 @@ export class ContactService {
   }));
 }
 
-  getData() {
+
+  getData(){
     return this.httpClient.get(this.serverUrl)
   }
   
@@ -37,13 +39,15 @@ export class ContactService {
     
     for(let contact of data){
       
-      const letter = contact.lastName.charAt(0).toUpperCase();
-      
+      if(contact.lastName){
+        const letter = contact.lastName.charAt(0).toUpperCase();
+
       if(!results[letter])
         results[letter] = [];
       
       results[letter].push(contact);    
     }
+  }
     return results;
   }
 
@@ -68,12 +72,12 @@ export class ContactService {
     return this.httpClient.delete(this.serverUrl + '/' + id);
   }
 
-  updateContact(id, body: ContactModel){
-    return this.httpClient.put((this.serverUrl + id), body)
+  updateContact(id, body){
+    return this.httpClient.put((this.serverUrl + '/' + id), body)
   }
 
-  notifyContactListComponent(boolean){
-    this.notify.next({ updated: boolean })
+  notifyContactListComponent(value: boolean){
+    this.notify.next({ updated: value })
   }
 
 }

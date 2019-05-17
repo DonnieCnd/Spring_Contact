@@ -18,17 +18,20 @@ export class HeaderComponent implements OnInit {
   modalSup: BsModalRef;
   modalRef: BsModalRef;
   modalRef2: BsModalRef;
-  selected: string;
-  contacts;
+  selected: any;
+  contacts: any;
+  matchingContacts;
+  isFiltered: boolean = false;
+  groupContact: ContactModel[];
 
   constructor(private _MODAL_SERVICE: BsModalService, private contactService: ContactService) { }
 
   ngOnInit() {
     this.contactService.getData().subscribe(res => {
       this.contacts = res;
-      console.log(this.contacts)
-    })
-   }
+      console.log(this.contacts);
+    });
+  }
 
   addContact(template: TemplateRef<any>) {
     this.modalSup = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-success'}));
@@ -61,4 +64,41 @@ export class HeaderComponent implements OnInit {
     this.modalRef.hide();
     this.modalRef = null;
   }
+
+  displayMatchingContacts(value){
+    if(value != ''){ 
+      this.matchingContacts = this.contacts.filter(x => {
+        if(x.lastName){ // contact lastName is not mandatory, avoid error when lastName is not filled
+          return x.firstName.substring(0, value.length).toLowerCase() === value.toLowerCase() || x.lastName.substring(0, value.length).toLowerCase() === value.toLowerCase();
+        }
+      })
+      this.isFiltered = true;
+    }  
+    else{
+      this.isFiltered = false;
+    }
+  }
+
+  resetSearchField(){
+    this.isFiltered = false;
+    this.matchingContacts = [];
+  }
+
+  addContactInGroup() {
+
+    if (!this.groupContact) {
+      this.groupContact = [];
+    }
+    this.contactModel.id = this.contacts.id;
+    this.contactModel.firstName = this.contacts.firstName;
+    this.contactModel.lastName = this.contacts.lastName;
+    this.contactModel.email = this.contacts.email;
+    this.contactModel.phoneNumber = this.contacts.phoneNumber;
+
+
+    this.contacts = null;
+    this.groupContact.push(this.contactModel);
+    this.contactModel = new ContactModel();
+  }
+
 }

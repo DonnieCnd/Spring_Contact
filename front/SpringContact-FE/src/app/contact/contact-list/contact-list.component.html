@@ -17,8 +17,10 @@
         <br *ngIf="i == contact.value.length-1">
     <!-- Update Contact Modal -->
     <ng-template class="modal-dialog" #suppTemplate>
-      <form class="" #contactForm="ngForm" (ngSubmit)="createOrUpdateContact()">
+      
+      <form class="" #contactForm="ngForm" (ngSubmit)="updateContact(item.id, contactModel)">
         <div class="modal-header">
+            {{ contactModel }}
           <h2>Update contact</h2>
           <i class="fa fa-trash float-right" id="trash" aria-hidden="true" (click)="openDeleteModal(supp2Template)"></i>
         </div>
@@ -125,7 +127,8 @@
         <br *ngIf="i == contact.value.length-1">
     <!-- Update Contact Modal -->
     <ng-template class="modal-dialog" #suppTemplate>
-      <form class="" #contactForm="ngForm" (ngSubmit)="createOrUpdateContact()">
+      <form class="" #contactForm="ngForm" (ngSubmit)="updateContact(item.id, contactModel)">
+        {{ contactModel }}
         <div class="modal-header">
           <h2>Update contact</h2>
           <i class="fa fa-trash float-right" id="trash" aria-hidden="true" (click)="openDeleteModal(supp2Template)"></i>
