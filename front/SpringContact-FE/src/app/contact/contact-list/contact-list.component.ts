@@ -71,14 +71,7 @@ export class ContactListComponent implements OnInit {
   }
   
   updateContact(id, body) {
-    // const contactBody = { id: id }
-    this.contactService.updateContact(id, body).subscribe(res => {
-    //   this.getData();
-    //   console.log(res)
-      
-  
-  
-  });
+    this.contactService.updateContact(id, body).subscribe(res => console.log(res));
     this.modalRef.hide();
   }
 }

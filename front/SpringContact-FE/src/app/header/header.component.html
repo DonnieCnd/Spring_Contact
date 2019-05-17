@@ -19,10 +19,7 @@
         class="form-control mr-sm-2 has-search" 
         type="search" 
         placeholder="Search" 
-        aria-label="Search" 
-        [(ngModel)]="selected"
-        [typeahead]="contacts"
-        class="form-control"
+        aria-label="Search"
         (keyup)="filter($event.target.value)">
       </div>
     </div>
@@ -111,29 +108,45 @@
                 <label>Add contact</label>
                 <span class="fa fa-search search-icon"></span>
                 <input id="searchbar" 
+                name="search"
                 class="form-control mr-sm-2 has-search" 
                 type="search" 
                 placeholder="Search" 
                 aria-label="Search"
-                class="form-control"
-                (keyup)="displayMatchingContacts($event.target.value)"
+                [(ngModel)]="searchTerm"
+                (keyup)="displayMatchingContacts(searchTerm)"
                 (search)="resetSearchField()">
               </div>
-            </div>
             
           
-          </fieldset>
-        </div>
 
-        <div *ngIf="isFiltered">
-          <div *ngFor="let contact of matchingContacts">
-            <div class="matchedContact">
-              <span>{{ contact.firstName }}</span>
-              <span>{{ contact.lastName }}</span>
+        <div class="matching-contacts-results row col-sm-12" style="margin: auto" *ngIf="isFiltered">
+          <div *ngFor="let contact of matchingContacts" class="matched-contact col-sm-12">
+              <div class="matched-contact-name">
+                <span class="firstName">{{ contact.firstName }}</span>
+                <strong style="margin-left: 5px;">{{ contact.lastName }}</strong>
+              </div>
+              <div class="matched-contact-add">
+                <i (click)="log(contact)" style="font-size:22px;" class="fa" id="add" aria-hidden="true">&#xf067;</i>
+              </div>
             </div>
-          </div>
+          
           
         </div>
+
+        <div *ngIf="selectedContacts.length > 0">
+          <div *ngFor="let contact of selectedContacts">
+            {{ contact.firstName }}
+            {{ contact.lastName }}
+          </div>
+
+
+        </div>
+
+
+      </div>
+      </fieldset>
+    </div>
 
         <div class="modal-footer justify-content-between">
           <a class="btn btn-secondary float-left" style="color: #ffffff!important;" (click)="modalRef2.hide(); openDisplayGroupModal(supp2Template)">Cancel</a>

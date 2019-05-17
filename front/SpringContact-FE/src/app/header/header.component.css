@@ -72,3 +72,17 @@ img {
     display: flex;
     justify-content: center;
 }
+
+.matched-contact{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 30%;
+    height: 60px;
+    border: 1px solid black; 
+}
+
+.matched-contact{
+    margin-top: -10px;
+}
+

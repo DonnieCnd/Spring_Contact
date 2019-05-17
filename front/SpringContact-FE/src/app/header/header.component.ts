@@ -18,10 +18,11 @@ export class HeaderComponent implements OnInit {
   modalSup: BsModalRef;
   modalRef: BsModalRef;
   modalRef2: BsModalRef;
-  selected: any;
+  selectedContacts= [];
   contacts: any;
   matchingContacts;
   isFiltered: boolean = false;
+  searchTerm: string;
 
   constructor(private _MODAL_SERVICE: BsModalService, private contactService: ContactService) { }
 
@@ -65,6 +66,7 @@ export class HeaderComponent implements OnInit {
   }
 
   displayMatchingContacts(value){
+    console.log(value)
     if(value != ''){ 
       this.matchingContacts = this.contacts.filter(x => {
         if(x.lastName){ // contact lastName is not mandatory, avoid error when lastName is not filled
@@ -76,11 +78,31 @@ export class HeaderComponent implements OnInit {
     else{
       this.isFiltered = false;
     }
+    console.log(this.matchingContacts)
   }
 
   resetSearchField(){
+    this.searchTerm = '';
     this.isFiltered = false;
     this.matchingContacts = [];
   }
 
+  log(item){
+    this.searchTerm = '';
+    this.isFiltered = false;
+    this.matchingContacts = [];
+    this.selectedContacts.push(item);
+    this.sortContactsByLastName();
+  }
+
+  sortContactsByLastName(){
+    this.selectedContacts = this.selectedContacts.sort((a,b) => {
+      if(a.lastName < b.lastName){
+        return -1;
+      }
+      if(a.lastName > b.lastName){
+        return 1;
+      }
+    })
+  }
 }
