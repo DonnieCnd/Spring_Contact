@@ -72,7 +72,7 @@ export class ContactListComponent implements OnInit {
   
   updateContact(id, body) {
     this.contactService.updateContact(id, body).subscribe(res => {
-    console.log(res) 
+      console.log(res);
   });
     this.modalRef.hide();
   }
