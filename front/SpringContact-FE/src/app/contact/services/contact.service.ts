@@ -71,7 +71,7 @@ export class ContactService {
     return this.httpClient.delete(this.serverUrl + '/' + id);
   }
 
-  updateContact(id, body){
+  updateContact(id, body: ContactModel){
     return this.httpClient.put((this.serverUrl + '/' + id), body);
   }
 
