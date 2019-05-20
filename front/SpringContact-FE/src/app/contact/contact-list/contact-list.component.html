@@ -102,13 +102,13 @@
 </div>
 
 <ng-template #elseBlock>
-    <div *ngIf="isEmpty(filtering?.data)">
+    <div *ngIf="isEmpty(dataSource?.data)">
         <img src="assets/img/shrugging.png">
         <p><strong>Oops you don't have any contact with this name</strong></p>
     </div>
     
 
-  <div *ngFor="let contact of filtering?.data | keyvalue">
+  <div *ngFor="let contact of dataSource?.data | keyvalue">
       
     <div class="letter"><strong>{{contact.key}}</strong></div>
     <br>

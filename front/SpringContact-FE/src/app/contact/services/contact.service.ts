@@ -15,11 +15,13 @@ export class ContactService {
   url = '/assets/mocks/db.json';
   serverUrl = 'http://localhost:8081/contacts';
 
-  filtering: BehaviorSubject<any> = new BehaviorSubject<any>({isFiltered: false, value : ""});
-  filteringObservable = this.filtering.asObservable();
-  notify: BehaviorSubject<any> = new BehaviorSubject<any>({ update: false })
-  notifyObservable = this.notify.asObservable();
-  data;
+  contactSubject: BehaviorSubject<any> = new BehaviorSubject<any>({ data: null, isFiltered: false, value : "", update: false });
+  contactSubjectObservable = this.contactSubject.asObservable();
+  data: any;
+  update: boolean = false;
+  // notify: BehaviorSubject<any> = new BehaviorSubject<any>({ update: false })
+  // notifyObservable = this.notify.asObservable();
+  
 
   retrieveContactsAndFormatData(){
     return this.httpClient.get(this.serverUrl).pipe(map(res => {
@@ -30,7 +32,7 @@ export class ContactService {
 
 
   getData(){
-    return this.httpClient.get(this.serverUrl)
+    return this.httpClient.get(this.serverUrl);
   }
   
   formatData(data){
@@ -56,12 +58,14 @@ export class ContactService {
       })
 
       let data = this.formatData(filtered);
-      this.filtering.next({ isFiltered: true, value: value, data: data });
+      // this.contactSubject.next({ isFiltered: true, value: value, data: data });
+      
+      this.contactSubject.next({ data: data, isFiltered: true, value : value, update: false });
     
     }
 
     else{
-      this.filtering.next({isFiltered: false});
+      this.contactSubject.next({ isFiltered: false, value : value, update: false });
     }
   
   } 
@@ -80,8 +84,9 @@ export class ContactService {
   }
 
   notifyContactListComponent(value: boolean){
-    this.notify.next({ updated: value });
-    
+    this.update = true;
+    this.contactSubject.next({...this.contactSubject.value, update: true});
+    this.update = false;
   }
 
 }

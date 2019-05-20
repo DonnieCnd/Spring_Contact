@@ -20,24 +20,21 @@ export class ContactListComponent implements OnInit {
 
   contacts: any;
   isFiltered = false;
-  filtering: any;
+  dataSource;
 
   ngOnInit() {
     this.getData();
-    this.contactService.notifyObservable.subscribe(res => {
-      console.log(res);
-      res.updated === true ? this.getData() : '';
-    })
-    this.contactService.filteringObservable.subscribe(res => {
+
+    this.contactService.contactSubjectObservable.subscribe(res => {
+      res.update === true ? this.getData() : '';
       this.isFiltered = res.isFiltered;
-      this.filtering = res;
+      this.dataSource = res;
     })
   }
 
   getData(){
     this.contactService.retrieveContactsAndFormatData().subscribe(res => {
       this.contacts = res;
-      console.log(this.contacts);
     });
   
   }
@@ -60,6 +57,9 @@ export class ContactListComponent implements OnInit {
   }
 
   isEmpty(object){
+    if(!object){
+      return false;
+    }
     return Object.keys(object).length === 0;
   }
 
@@ -71,9 +71,8 @@ export class ContactListComponent implements OnInit {
   }
   
   updateContact(id, body) {
-    this.contactService.updateContact(id, body).subscribe(res => {
-      console.log(res);
-  });
-    this.modalRef.hide();
+    this.contactService.updateContact(id, body).subscribe(res => this.modalRef.hide());
+
   }
+
 }
