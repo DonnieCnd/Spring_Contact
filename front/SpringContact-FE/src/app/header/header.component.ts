@@ -57,15 +57,16 @@ export class HeaderComponent implements OnInit {
     (error) => {
       console.log('an error occured during post request', error);
     })
-    this.modalSup.hide();
-    
+    this.modalSup.hide();  
   }
+  
   openDisplayGroupModal(template: TemplateRef<any>) {
     this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
     this.matchingContacts = [];
     this.selectedContacts = [];
     this.groupName = '';
   }
+  
   openNewGroupModal(template: TemplateRef<any>) {
     this.modalRef2 = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
     this.modalRef.hide();
@@ -73,7 +74,7 @@ export class HeaderComponent implements OnInit {
   }
 
   displayMatchingContacts(value){
-    // console.log(value)
+    
     if(value != ''){ 
       this.matchingContacts = this.contacts.filter(x => {
         if(x.lastName){ // contact lastName is not mandatory, avoid error when lastName is not filled
@@ -84,8 +85,7 @@ export class HeaderComponent implements OnInit {
     }  
     else{
       this.isFiltered = false;
-    }
-    // console.log(this.matchingContacts)
+    } 
   }
 
   resetSearchField(){
@@ -113,7 +113,7 @@ export class HeaderComponent implements OnInit {
     })
   }
 
-  deleteSelectedContact(id) {
+  deleteSelectedContact(id){
     this.selectedContacts = this.selectedContacts.filter(x => x.id !== id);
   }
 }

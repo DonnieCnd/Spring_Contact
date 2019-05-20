@@ -37,29 +37,33 @@ export class ContactService {
     let results = {}; 
     
     for(let contact of data){
-      
-      if(contact.lastName){
-        const letter = contact.lastName.charAt(0).toUpperCase();
+      let letter;
+      contact.lastName ? letter = contact.lastName.charAt(0).toUpperCase() : letter = contact.firstName.charAt(0);
 
       if(!results[letter])
         results[letter] = [];
       
       results[letter].push(contact);    
     }
-  }
     return results;
   }
 
   setFiltering(value){
-    // value.length > 0 ? this.filtering.next({"isFiltered": true, "value": value}) : this.filtering.next({"isFiltered": false, "value": ""})
     if(value.length > 0){
-      let filtered = this.data.filter(x => x.firstName.toLowerCase().includes(value.toLowerCase()) || x.lastName.toLowerCase().includes(value.toLowerCase()));
+      
+      let filtered = this.data.filter(x => {
+        return x.lastName ? x.lastName.toLowerCase().includes(value.toLowerCase()) : x.firstName.toLowerCase().includes(value.toLowerCase());
+      })
+
       let data = this.formatData(filtered);
       this.filtering.next({ isFiltered: true, value: value, data: data });
+    
     }
+
     else{
       this.filtering.next({isFiltered: false});
     }
+  
   } 
   
   createContact(body: ContactModel){
@@ -77,6 +81,7 @@ export class ContactService {
 
   notifyContactListComponent(value: boolean){
     this.notify.next({ updated: value });
+    
   }
 
 }
