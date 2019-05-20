@@ -23,23 +23,26 @@ export class HeaderComponent implements OnInit {
   matchingContacts;
   isFiltered: boolean = false;
   searchTerm: string;
+  groupName: string;
 
   constructor(private _MODAL_SERVICE: BsModalService, private contactService: ContactService) { }
 
   ngOnInit() {
+    this.getData()
+  }
+
+  getData(){
     this.contactService.getData().subscribe(res => {
       this.contacts = res;
       console.log(this.contacts);
     });
+  
   }
 
   addContact(template: TemplateRef<any>) {
     this.modalSup = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-success'}));
   }
 
-  createOrUpdateContact() {
-    this.modalSup.hide();
-  }
 
   filter(value){
     this.contactService.setFiltering(value);
@@ -49,6 +52,7 @@ export class HeaderComponent implements OnInit {
     this.contactService.createContact(body).subscribe(res => {
       console.log('success', res);
       this.contactService.notifyContactListComponent(true);
+      this.getData();
     },
     (error) => {
       console.log('an error occured during post request', error);
@@ -60,6 +64,7 @@ export class HeaderComponent implements OnInit {
     this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
     this.matchingContacts = [];
     this.selectedContacts = [];
+    this.groupName = '';
   }
   openNewGroupModal(template: TemplateRef<any>) {
     this.modalRef2 = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
