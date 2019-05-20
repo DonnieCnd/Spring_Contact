@@ -28,15 +28,13 @@ export class HeaderComponent implements OnInit {
   constructor(private _MODAL_SERVICE: BsModalService, private contactService: ContactService) { }
 
   ngOnInit() {
-    this.getData()
+    this.getData();
   }
 
   getData(){
     this.contactService.getData().subscribe(res => {
       this.contacts = res;
-      console.log(this.contacts);
     });
-  
   }
 
   addContact(template: TemplateRef<any>) {
@@ -50,7 +48,7 @@ export class HeaderComponent implements OnInit {
 
   createContact(body){
     this.contactService.createContact(body).subscribe(res => {
-      console.log('success', res);
+      // console.log('success', res);
       this.contactService.notifyContactListComponent(true);
       this.getData();
     },
@@ -73,8 +71,7 @@ export class HeaderComponent implements OnInit {
     this.modalRef = null;
   }
 
-  displayMatchingContacts(value){
-    
+  displayMatchingContacts(value){ 
     if(value != ''){ 
       this.matchingContacts = this.contacts.filter(x => {
         if(x.lastName){ // contact lastName is not mandatory, avoid error when lastName is not filled
