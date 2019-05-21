@@ -1,12 +1,12 @@
 <div class="container-fluid">
   <div class="row row-1">
-    <div class="people col-4">
+    <div class="people">
       <i style="font-size:24px" class="fa fa-users" aria-hidden="true" (click)="openDisplayGroupModal(supp2Template)"></i>
     </div>
-    <div class="colSearch col-4">
+    <div class="colSearch">
       <h1 class="search">Contacts</h1>
     </div>
-    <div class="plus col-4">
+    <div class="plus">
       <i style="font-size:24px" class="fa" (click)="addContact(suppTemplate)">&#xf067;</i>
     </div>
   </div>
@@ -103,12 +103,12 @@
             </div>
           </div>
           <div class="row col-sm-12" style="margin: auto">
-            <div class="input-icon form-group col-sm-12">
+            <div class="input-icon form-group col-12">
               <label>Add contact</label>
               <span class="fa fa-search search-icon"></span>
               <input id="searchbar" 
               name="search"
-              class="form-control mr-sm-2 has-search" 
+              class="form-control mr-2 has-search" 
               type="search" 
               placeholder="Search" 
               aria-label="Search"
@@ -116,8 +116,8 @@
               (keyup)="displayMatchingContacts(searchTerm)"
               (search)="resetSearchField()">
             </div>
-            <div class="matching-contacts-results row col-sm-12" style="margin: auto" *ngIf="isFiltered">
-              <div *ngFor="let contact of matchingContacts" class="matched-contact col-sm-12" (click)="log(contact)">
+            <div class="matching-contacts-results row col-12" style="margin: auto" *ngIf="isFiltered">
+              <div *ngFor="let contact of matchingContacts" class="matched-contact col-12" (click)="log(contact)">
                 <div class="matched-contact-name">
                   <span class="firstName">{{ contact.firstName }}</span>
                   <strong style="margin-left: 5px;">{{ contact.lastName }}</strong>
@@ -125,8 +125,8 @@
               </div>  
             </div>
 
-            <div class="group-contacts-results row col-sm-12" style="margin: auto" *ngIf="selectedContacts.length > 0">
-              <div *ngFor="let contact of selectedContacts" class="groupContact col-sm-12">
+            <div class="group-contacts-results row col-12" style="margin: auto" *ngIf="selectedContacts.length > 0">
+              <div *ngFor="let contact of selectedContacts" class="groupContact col-12">
                 <div class="group-contact-name">
                   <span class="firstName">{{ contact.firstName }}</span>
                   <strong style="margin-left: 5px;">{{ contact.lastName }}</strong>
