@@ -51,7 +51,7 @@ export class ContactService {
     if(value.length > 0){
       
       let filtered = this.data.filter(x => {
-        return x.lastName ? x.lastName.toLowerCase().includes(value.toLowerCase()) : x.firstName.toLowerCase().includes(value.toLowerCase());
+        return x.lastName ? x.lastName.toLowerCase().includes(value.toLowerCase()) || x.firstName.toLowerCase().includes(value.toLowerCase()) : x.firstName.toLowerCase().includes(value.toLowerCase());
       })
 
       let data = this.formatData(filtered);
