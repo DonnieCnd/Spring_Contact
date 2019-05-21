@@ -18,9 +18,9 @@ export class HeaderComponent implements OnInit {
   modalSup: BsModalRef;
   modalRef: BsModalRef;
   modalRef2: BsModalRef;
-  selectedContacts= [];
+  selectedContacts = [];
   contacts: any;
-  matchingContacts;
+  matchingContacts = [];
   isFiltered: boolean = false;
   searchTerm: string;
   groupName: string;
@@ -34,6 +34,7 @@ export class HeaderComponent implements OnInit {
   getData(){
     this.contactService.getData().subscribe(res => {
       this.contacts = res;
+      this.contacts = this.contacts.map(x => { return { ...x, selected: false }})  
     });
   }
 
@@ -71,14 +72,16 @@ export class HeaderComponent implements OnInit {
     this.modalRef = null;
   }
 
-  displayMatchingContacts(value){ 
+  displayMatchingContacts(value){
     if(value != ''){ 
       this.matchingContacts = this.contacts.filter(x => {
-        if(x.lastName){ // contact lastName is not mandatory, avoid error when lastName is not filled
-          return x.firstName.substring(0, value.length).toLowerCase() === value.toLowerCase() || x.lastName.substring(0, value.length).toLowerCase() === value.toLowerCase();
+        if(!x.selected){
+          if(x.lastName){ // contact lastName is not mandatory, avoid error when lastName is not filled
+            return x.firstName.substring(0, value.length).toLowerCase() === value.toLowerCase() || x.lastName.substring(0, value.length).toLowerCase() === value.toLowerCase();
+          }
         }
       })
-      this.isFiltered = true;
+    this.isFiltered = true;
     }  
     else{
       this.isFiltered = false;
@@ -94,8 +97,8 @@ export class HeaderComponent implements OnInit {
   log(item){
     this.searchTerm = '';
     this.isFiltered = false;
-    this.matchingContacts = [];
     this.selectedContacts.push(item);
+    this.setSelected(item.id)
     this.sortContactsByLastName();
   }
 
@@ -112,5 +115,15 @@ export class HeaderComponent implements OnInit {
 
   deleteSelectedContact(id){
     this.selectedContacts = this.selectedContacts.filter(x => x.id !== id);
+    this.setSelected(id);
   }
+
+  setSelected(id){
+    return this.matchingContacts = this.contacts.filter(x => {
+      if(x.id === id){
+       return x.selected = !x.selected;
+      }
+    })
+  }
+
 }

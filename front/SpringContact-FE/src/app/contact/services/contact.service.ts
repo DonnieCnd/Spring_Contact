@@ -19,9 +19,6 @@ export class ContactService {
   contactSubjectObservable = this.contactSubject.asObservable();
   data: any;
   update: boolean = false;
-  // notify: BehaviorSubject<any> = new BehaviorSubject<any>({ update: false })
-  // notifyObservable = this.notify.asObservable();
-  
 
   retrieveContactsAndFormatData(){
     return this.httpClient.get(this.serverUrl).pipe(map(res => {
@@ -30,10 +27,9 @@ export class ContactService {
   }));
 }
 
-
   getData(){
     return this.httpClient.get(this.serverUrl);
-  }
+  };
   
   formatData(data){
     let results = {}; 
@@ -45,10 +41,11 @@ export class ContactService {
       if(!results[letter])
         results[letter] = [];
       
-      results[letter].push(contact);    
+      results[letter].push({...contact, selected: false});    
     }
+    console.log(results)
     return results;
-  }
+  };
 
   setFiltering(value){
     if(value.length > 0){
@@ -58,7 +55,6 @@ export class ContactService {
       })
 
       let data = this.formatData(filtered);
-      // this.contactSubject.next({ isFiltered: true, value: value, data: data });
       
       this.contactSubject.next({ data: data, isFiltered: true, value : value, update: false });
     
@@ -68,25 +64,24 @@ export class ContactService {
       this.contactSubject.next({ isFiltered: false, value : value, update: false });
     }
   
-  } 
+  };
   
   createContact(body: ContactModel){
     return this.httpClient.post(this.serverUrl, body);
-
-  }
+  };
   
   deleteContactById(id){
     return this.httpClient.delete(this.serverUrl + '/' + id);
-  }
+  };
 
   updateContact(id, body){
     return this.httpClient.put((this.serverUrl + '/' + id), body);
-  }
+  };
 
   notifyContactListComponent(value: boolean){
     this.update = true;
     this.contactSubject.next({...this.contactSubject.value, update: true});
     this.update = false;
-  }
+  };
 
-}
+};
