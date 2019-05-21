@@ -24,10 +24,16 @@ export class HeaderComponent implements OnInit {
   isFiltered: boolean = false;
   searchTerm: string;
   groupName: string;
+  res;
 
   constructor(private _MODAL_SERVICE: BsModalService, private contactService: ContactService) { }
 
   ngOnInit() {
+    this.contactService.contactSubjectObservable.subscribe(res => {
+      this.res = res;
+      console.log(this.res)
+      // this.contactService.setData(this.res)
+    })
     this.getData();
   }
 
