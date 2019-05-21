@@ -19,9 +19,7 @@ export class ContactService {
   contactSubjectObservable = this.contactSubject.asObservable();
   data: any;
   update: boolean = false;
-  // notify: BehaviorSubject<any> = new BehaviorSubject<any>({ update: false })
-  // notifyObservable = this.notify.asObservable();
-  
+
 
   retrieveContactsAndFormatData(){
     return this.httpClient.get(this.serverUrl).pipe(map(res => {
@@ -45,8 +43,9 @@ export class ContactService {
       if(!results[letter])
         results[letter] = [];
       
-      results[letter].push(contact);    
+      results[letter].push({...contact, selected: false});    
     }
+    console.log(results)
     return results;
   }
 
@@ -87,6 +86,12 @@ export class ContactService {
     this.update = true;
     this.contactSubject.next({...this.contactSubject.value, update: true});
     this.update = false;
+  }
+
+  setData(value) {
+
+    this.contactSubject.next({...this.contactSubject.value, data: value})
+    console.log(value)
   }
 
 }

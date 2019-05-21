@@ -61,7 +61,7 @@
         </fieldset>
       </div>
       <div class="modal-footer justify-content-between">
-        <a class="btn btn-secondary float-left" style="color: #ffffff!important;" (click)="modalSup.hide()">Cancel</a>
+        <a class="btn btn-secondary float-left" style="color: #ffffff!important;" (click)="modalSup.hide(); contactForm.reset()">Cancel</a>
         <button class="btn btn-success float-right">Create</button>       
       </div>
     </form>
@@ -88,71 +88,62 @@
   </ng-template>
   <!-- New Group Modal -->
   <ng-template class="modal-dialog" #supp3Template>
-      <form #contactForm="ngForm" (ngSubmit)="createContact(contactModel); contactForm.reset()">
-        <div class="modal-header">
-          <h2>Create new group</h2>
-        </div>
-        <div class="modal-body">
-          <fieldset>
-            <br>
-            <div class="row col-sm-12" style="margin: auto">
-              <div class="form-group col-sm-12">
-                <label for="groupName">Group's Name</label>
-                <input class="form-control" id="groupName" type="text" name="groupName" placeholder="Enter a group's name"
-                       [(ngModel)]="groupName" #contactGname="ngModel"/>
-              </div>
-            </div>
-            <div class="row col-sm-12" style="margin: auto">
-              <div class="input-icon form-group col-sm-12">
-                <label>Add contact</label>
-                <span class="fa fa-search search-icon"></span>
-                <input id="searchbar" 
-                name="search"
-                class="form-control mr-sm-2 has-search" 
-                type="search" 
-                placeholder="Search" 
-                aria-label="Search"
-                [(ngModel)]="searchTerm"
-                (keyup)="displayMatchingContacts(searchTerm)"
-                (search)="resetSearchField()">
-              </div>
-            
-          
-
-        <div class="matching-contacts-results row col-sm-12" style="margin: auto" *ngIf="isFiltered">
-          <div *ngFor="let contact of matchingContacts" class="matched-contact col-sm-12" (click)="log(contact)">
-              <div class="matched-contact-name">
-                <span class="firstName">{{ contact.firstName }}</span>
-                <strong style="margin-left: 5px;">{{ contact.lastName }}</strong>
-              </div>
-            </div>
-          
-          
-        </div>
-
-        <div class="group-contacts-results row col-sm-12" style="margin: auto" *ngIf="selectedContacts.length > 0">
-          <div *ngFor="let contact of selectedContacts" class="groupContact col-sm-12">
-            <div class="group-contact-name">
-              <span class="firstName">{{ contact.firstName }}</span>
-              <strong style="margin-left: 5px;">{{ contact.lastName }}</strong>
-            </div>
-            <div class="group-contact-delete">
-              <i class="fa fa-window-close" aria-hidden="true" (click)="deleteSelectedContact(contact.id)"></i>
+    <form #contactForm="ngForm" (ngSubmit)="createContact(contactModel); contactForm.reset()">
+      <div class="modal-header">
+        <h2>Create new group</h2>
+      </div>
+      <div class="modal-body">
+        <fieldset>
+          <br>
+          <div class="row col-sm-12" style="margin: auto">
+            <div class="form-group col-sm-12">
+              <label for="groupName">Group's Name</label>
+              <input class="form-control" id="groupName" type="text" name="groupName" placeholder="Enter a group's name"
+                      [(ngModel)]="groupName" #contactGname="ngModel"/>
             </div>
           </div>
+          <div class="row col-sm-12" style="margin: auto">
+            <div class="input-icon form-group col-sm-12">
+              <label>Add contact</label>
+              <span class="fa fa-search search-icon"></span>
+              <input id="searchbar" 
+              name="search"
+              class="form-control mr-sm-2 has-search" 
+              type="search" 
+              placeholder="Search" 
+              aria-label="Search"
+              [(ngModel)]="searchTerm"
+              (keyup)="displayMatchingContacts(searchTerm)"
+              (search)="resetSearchField()">
+            </div>
+            <div class="matching-contacts-results row col-sm-12" style="margin: auto" *ngIf="isFiltered">
+              <div *ngFor="let contact of matchingContacts" class="matched-contact col-sm-12" (click)="log(contact)">
+                <div class="matched-contact-name">
+                  <span class="firstName">{{ contact.firstName }}</span>
+                  <strong style="margin-left: 5px;">{{ contact.lastName }}</strong>
+                </div>
+              </div>  
+            </div>
 
-
-        </div>
-
-
+            <div class="group-contacts-results row col-sm-12" style="margin: auto" *ngIf="selectedContacts.length > 0">
+              <div *ngFor="let contact of selectedContacts" class="groupContact col-sm-12">
+                <div class="group-contact-name">
+                  <span class="firstName">{{ contact.firstName }}</span>
+                  <strong style="margin-left: 5px;">{{ contact.lastName }}</strong>
+                </div>
+                <div class="group-contact-delete">
+                  <i class="fa fa-window-close" aria-hidden="true" (click)="deleteSelectedContact(contact.id)"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
       </div>
-      </fieldset>
-    </div>
 
-        <div class="modal-footer justify-content-between">
-          <a class="btn btn-secondary float-left" style="color: #ffffff!important;" (click)="modalRef2.hide(); openDisplayGroupModal(supp2Template)">Cancel</a>
-          <button class="btn btn-success float-right">Create</button>       
-        </div>
-      </form>
-    </ng-template>
+      <div class="modal-footer justify-content-between">
+        <a class="btn btn-secondary float-left" style="color: #ffffff!important;" (click)="modalRef2.hide(); openDisplayGroupModal(supp2Template)">Cancel</a>
+        <button class="btn btn-success float-right">Create</button>       
+      </div>
+    </form>
+  </ng-template>
 </div>

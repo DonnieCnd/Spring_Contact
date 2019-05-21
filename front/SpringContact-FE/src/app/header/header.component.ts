@@ -24,10 +24,16 @@ export class HeaderComponent implements OnInit {
   isFiltered: boolean = false;
   searchTerm: string;
   groupName: string;
+  res;
 
   constructor(private _MODAL_SERVICE: BsModalService, private contactService: ContactService) { }
 
   ngOnInit() {
+    this.contactService.contactSubjectObservable.subscribe(res => {
+      this.res = res;
+      console.log(this.res)
+      // this.contactService.setData(this.res)
+    })
     this.getData();
   }
 
@@ -73,7 +79,7 @@ export class HeaderComponent implements OnInit {
 
   displayMatchingContacts(value){ 
     if(value != ''){ 
-      this.matchingContacts = this.contacts.filter(x => {
+      this.matchingContacts = this.contacts.filter(x => { x.selected == false; 
         if(x.lastName){ // contact lastName is not mandatory, avoid error when lastName is not filled
           return x.firstName.substring(0, value.length).toLowerCase() === value.toLowerCase() || x.lastName.substring(0, value.length).toLowerCase() === value.toLowerCase();
         }
