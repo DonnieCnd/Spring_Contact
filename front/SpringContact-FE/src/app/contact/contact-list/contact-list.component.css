@@ -2,7 +2,8 @@
     margin-top: 0%;
 }
 .letter {
-    background-color: rgb(250, 242, 242);
+    background-color: rgb(87, 126, 231);
+    color: white;
 }
 
 #trash {
@@ -21,9 +22,17 @@
 }
 .contactName {
     margin-left: 33%;
+    color: rgb(87, 126, 231);
+}
+.fa {
+    color: rgb(87, 126, 231);
+}
+hr {
+    border: none;
+    border-bottom: 1px solid rgb(87, 126, 231);
 }
 .modal-header {
-    background-color: rgb(252, 250, 250);
+    background-color: rgb(87, 126, 231);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -31,4 +40,58 @@
 img {
     height: 200px;
     width: 300px;
+}
+.modal-footer {
+    border-top: 1px solid rgb(87, 126, 231);
+}
+a {
+    background-color: white;
+    color: rgb(87, 126, 231)!important;;
+    border: 1px solid rgb(87, 126, 231);
+}
+a.btn:hover {
+    background-color: transparent;
+    border: 1px solid rgb(87, 126, 231);
+}
+button {
+    background-color: rgb(87, 126, 231);
+    color: white;
+}
+button.btn:hover {
+    color: white;
+}
+
+h1 {
+    color:white;
+}
+h2 {
+    color: white;
+}
+.fa-trash {
+    color: white;
+}
+legend {
+    color: rgb(87, 126, 231);
+}
+label {
+    color: rgb(87, 126, 231);
+}
+input {
+    border: 1px solid rgb(87, 126, 231);
+    color: rgb(87, 126, 231);
+}
+::-webkit-input-placeholder {
+    color: rgb(87, 126, 231);
+}
+::-moz-placeholder {
+    color: rgb(87, 126, 231);
+}
+:-ms-input-placeholder {
+    color: rgb(87, 126, 231);
+}
+::placeholder {
+    color: rgb(87, 126, 231);
+}
+p {
+    color: rgb(87, 126, 231);;
 }

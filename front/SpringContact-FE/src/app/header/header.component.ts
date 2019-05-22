@@ -70,6 +70,7 @@ export class HeaderComponent implements OnInit {
     this.matchingContacts = [];
     this.selectedContacts = [];
     this.groupName = '';
+    this.searchTerm = '';
   }
   
   openNewGroupModal(template: TemplateRef<any>) {

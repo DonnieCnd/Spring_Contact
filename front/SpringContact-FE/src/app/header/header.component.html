@@ -61,8 +61,8 @@
         </fieldset>
       </div>
       <div class="modal-footer justify-content-between">
-        <a class="btn btn-secondary float-left" style="color: #ffffff!important;" (click)="modalSup.hide(); contactForm.reset()">Cancel</a>
-        <button class="btn btn-success float-right">Create</button>       
+        <a class="btn btn-secondary float-left" (click)="modalSup.hide(); contactForm.reset()">Cancel</a>
+        <button class="btn float-right">Create</button>       
       </div>
     </form>
   </ng-template>
@@ -82,7 +82,7 @@
         </div>
       </div>
       <div class="modal-footer justify-content-between">
-        <a class="btn btn-secondary float-right" style="color: #ffffff!important;" (click)="modalRef.hide()">Cancel</a>
+        <a class="btn btn-secondary float-right" (click)="modalRef.hide()">Cancel</a>
       </div>
     </form>
   </ng-template>
@@ -141,8 +141,8 @@
       </div>
 
       <div class="modal-footer justify-content-between">
-        <a class="btn btn-secondary float-left" style="color: #ffffff!important;" (click)="modalRef2.hide(); openDisplayGroupModal(supp2Template)">Cancel</a>
-        <button class="btn btn-success float-right">Create</button>       
+        <a class="btn float-left" (click)="modalRef2.hide(); openDisplayGroupModal(supp2Template)">Cancel</a>
+        <button class="btn float-right">Create</button>       
       </div>
     </form>
   </ng-template>
