@@ -139,7 +139,7 @@ p {
     justify-content: space-between;
     width: 30%;
     height: 60px;
-    border: 1px solid rgb(87, 126, 231);
+    border: 1px solid white;
     color: white;
     background-color: rgb(87, 126, 231);
 }
