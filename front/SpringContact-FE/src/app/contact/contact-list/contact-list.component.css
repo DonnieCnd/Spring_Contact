@@ -60,7 +60,9 @@ button {
 button.btn:hover {
     color: white;
 }
-
+.fa-window-close {
+    color: white;
+}
 h1 {
     color:white;
 }
