@@ -25,6 +25,7 @@ export class HeaderComponent implements OnInit {
   searchTerm: string;
   groupName: string;
   res;
+  groups;
 
   constructor(private _MODAL_SERVICE: BsModalService, private contactService: ContactService) { }
 
@@ -35,6 +36,11 @@ export class HeaderComponent implements OnInit {
       // this.contactService.setData(this.res)
     })
     this.getData();
+    this.contactService.getGroups().subscribe(res => {
+      this.groups = res;
+      this.groups = this.groups.groups
+      console.log(this.groups)
+    })
   }
 
   getData(){

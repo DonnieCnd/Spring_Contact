@@ -19,13 +19,18 @@ export class ContactService {
   contactSubjectObservable = this.contactSubject.asObservable();
   data: any;
   update: boolean = false;
+  groups;
 
   retrieveContactsAndFormatData(){
     return this.httpClient.get(this.serverUrl).pipe(map(res => {
       this.data = res;
       return this.formatData(res);
-  }));
-}
+    }));
+  }
+
+  getGroups() {
+    return this.httpClient.get(this.url)
+  }
 
   getData(){
     return this.httpClient.get(this.serverUrl);

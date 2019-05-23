@@ -74,7 +74,22 @@
         <i style="font-size:22px" class="addGroup fa" id="add" aria-hidden="true" (click)="openNewGroupModal(supp3Template)" >&#xf067;</i>
       </div>
       <div class="modal-body2">
-        <div class="not-found row">
+        <div class="groups" *ngFor="let group of groups; index as i">
+          <div class="groupRow row">
+            <div class="groupInfo col-9">
+              <br>
+              <h3>{{group.name}}</h3>
+              <p class="numberOfContacts">{{group.contacts.length}} contacts</p>
+            </div>
+            <div class="col-3">
+              <i class="fa fa-pencil float-right" id="pencil" aria-hidden="true" (click)="openUpdateModal(suppTemplate)"></i>
+            </div>
+          </div>
+          <hr *ngIf="i != groups.length-1">
+          <br *ngIf="i == groups.length-1">         
+        </div>
+
+        <div class="not-found row" *ngIf="groups.length == 0">
           <div class="image col-12">
             <img src="assets/img/shrugging.png">
           </div>

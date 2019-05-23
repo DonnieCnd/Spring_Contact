@@ -1,4 +1,102 @@
 {
+    "groups": [
+        {
+            "id": 1,
+            "name": "Boxe",
+            "contacts": [
+                {
+                    "id": 14,
+                    "firstName": "Marcel",
+                    "lastName": "Cerdan",
+                    "email": "marcel@cerdan.com",
+                    "phoneNumber": "0155226644"
+                },
+                {
+                    "id": 17,
+                    "firstName": "Rocky",
+                    "lastName": "Marciano",
+                    "email": "rocky@marciano.com",
+                    "phoneNumber": "0655882244"
+                },
+                {
+                    "id": 16,
+                    "firstName": "Muhammad",
+                    "lastName": "Ali",
+                    "email": "m@ali.com",
+                    "phoneNumber": "0755008844"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Combat",
+            "contacts": [
+                {
+                    "id": 4,
+                    "firstName": "Donnie",
+                    "lastName": "Hanma",
+                    "email": "test@test.com",
+                    "phoneNumber": "0666666666"
+                },
+                {
+                    "id": 6,
+                    "firstName": "Luffy",
+                    "lastName": "Monkey",
+                    "email": "luffy@mugiwara.com",
+                    "phoneNumber": "0154748699"
+                },
+                {
+                    "id": 7,
+                    "firstName": "Sylvester",
+                    "lastName": "Stallone",
+                    "email": "sylvester@stallone.com",
+                    "phoneNumber": "0544881456"
+                },
+                {
+                    "id": 8,
+                    "firstName": "Roronoa",
+                    "lastName": "Zoro",
+                    "email": "zoro@mugiwara.com",
+                    "phoneNumber": "0982654565"
+                },
+                {
+                    "id": 9,
+                    "firstName": "Jean Claude",
+                    "lastName": "Van Damme",
+                    "email": "jc@vd.com",
+                    "phoneNumber": "0156984511"
+                },
+                {
+                    "id": 11,
+                    "firstName": "Bruce",
+                    "lastName": "Lee",
+                    "email": "bruce@lee.com",
+                    "phoneNumber": "0977886655"
+                },
+                {
+                    "id": 12,
+                    "firstName": "Sanji",
+                    "lastName": "Vinsmoke",
+                    "email": "sanji@mugiwara.com",
+                    "phoneNumber": "0154996633"
+                },
+                {
+                    "id": 13,
+                    "firstName": "Shanks",
+                    "lastName": "Le Roux",
+                    "email": "shanks@red.com",
+                    "phoneNumber": "0177441122"
+                },
+                {
+                    "id": 18,
+                    "firstName": "Ace",
+                    "lastName": "Portgas",
+                    "email": "ace@portgas.com",
+                    "phoneNumber": "0620318456"
+                }
+            ]
+        }
+    ],
     "contacts": [
         {
             "id": 1,
