@@ -18,6 +18,7 @@ export class HeaderComponent implements OnInit {
   modalSup: BsModalRef;
   modalRef: BsModalRef;
   modalRef2: BsModalRef;
+  modalRef3: BsModalRef;
   selectedContacts = [];
   contacts: any;
   matchingContacts = [];
@@ -69,6 +70,12 @@ export class HeaderComponent implements OnInit {
       console.log('an error occured during post request', error);
     })
     this.modalSup.hide();  
+  }
+
+  displayContactsGroupCard(template: TemplateRef<any>) {
+    this.modalRef3 = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
+    this.modalRef.hide();
+    this.modalRef= null;
   }
   
   openDisplayGroupModal(template: TemplateRef<any>) {

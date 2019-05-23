@@ -78,15 +78,35 @@
           <div class="groupRow row">
             <div class="groupInfo col-9">
               <br>
-              <h3>{{group.name}}</h3>
-              <p class="numberOfContacts">{{group.contacts.length}} contacts</p>
+              <div class="displayContactsGroup" (click)="displayContactsGroupCard(supp4Template)">
+                <h3>{{group.name}}</h3>
+                <p class="numberOfContacts">{{group.contacts.length}} contacts</p>
+              </div>
             </div>
             <div class="col-3">
               <i class="fa fa-pencil float-right" id="pencil" aria-hidden="true" (click)="openUpdateModal(suppTemplate)"></i>
             </div>
           </div>
           <hr *ngIf="i != groups.length-1">
-          <br *ngIf="i == groups.length-1">         
+          <br *ngIf="i == groups.length-1"> 
+          
+          <!-- Display contacts group modal -->
+          <ng-template class="modal-dialog" #supp4Template>
+              <form class="" #contactForm="ngForm">
+                <div class="modal-header">
+                  <h2>{{group.name}}</h2>
+                  <i class="fa fa-window-close" id="close" aria-hidden="true" (click)="modalRef3.hide(); openDisplayGroupModal(supp2Template)"></i>
+                </div>
+                <div class="modal-body">
+                  <div class="namesContactsGroup" *ngFor="let contact of group.contacts; index as i">
+                    <br>
+                    <div class="namesOfContacts"><p>{{contact.firstName}} <strong>{{contact.lastName}}</strong></p></div>
+                    <hr *ngIf="i != group.contacts.length-1">
+                    <br *ngIf="i == group.contacts.length-1">
+                  </div> 
+                </div>
+              </form>
+            </ng-template>
         </div>
 
         <div class="not-found row" *ngIf="groups.length == 0">
