@@ -19,6 +19,7 @@ export class HeaderComponent implements OnInit {
   modalRef: BsModalRef;
   modalRef2: BsModalRef;
   modalRef3: BsModalRef;
+  modalRef4: BsModalRef;
   selectedContacts = [];
   contacts: any;
   matchingContacts = [];
@@ -85,6 +86,12 @@ export class HeaderComponent implements OnInit {
     this.groupName = '';
     this.searchTerm = '';
   }
+
+  openUpdateGroupModal(template: TemplateRef<any>) {
+    this.modalRef4 = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
+    this.modalRef.hide();
+    this.modalRef= null;
+  }
   
   openNewGroupModal(template: TemplateRef<any>) {
     this.modalRef2 = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
@@ -92,7 +99,7 @@ export class HeaderComponent implements OnInit {
     this.modalRef = null;
   }
 
-  displayMatchingContacts(value){
+  displayMatchingContacts(value) {
     if(value != ''){ 
       this.matchingContacts = this.contacts.filter(x => {
         if(!x.selected){
@@ -106,6 +113,40 @@ export class HeaderComponent implements OnInit {
     else{
       this.isFiltered = false;
     } 
+  }
+
+  updateMatchingContacts(value, array){
+    let filtered = this.compare(array.contacts)
+    if(value != ''){
+      this.matchingContacts = filtered.filter(x => {
+        if(!x.selected){
+          if(x.lastName){ // contact lastName is not mandatory, avoid error when lastName is not filled
+            return x.firstName.substring(0, value.length).toLowerCase() === value.toLowerCase() || x.lastName.substring(0, value.length).toLowerCase() === value.toLowerCase();
+          }
+        }
+      })
+      this.isFiltered = true;  
+    }
+    else {
+      this.isFiltered = false;
+    }
+  }
+
+  compare(array) {
+    let result = [];
+    for (let i = 0; i< this.contacts.length; i++) {
+      let index = -1;
+      let compare = this.contacts[i].id;
+      for (let j = 0; j < array.length; j++) {
+        if (compare == array[j].id) {
+          index = 1;
+        }
+      }
+      if (index == -1) {
+        result.push(this.contacts[i])
+      }
+    }
+    return result;
   }
 
   resetSearchField(){

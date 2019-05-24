@@ -171,3 +171,6 @@ p {
     display: flex;
     justify-content: center;
 }
+#trash {
+    font-size: 200%;
+}

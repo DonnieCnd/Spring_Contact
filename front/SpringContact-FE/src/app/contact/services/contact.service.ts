@@ -18,6 +18,7 @@ export class ContactService {
   contactSubject: BehaviorSubject<any> = new BehaviorSubject<any>({ data: null, isFiltered: false, value : "", update: false });
   contactSubjectObservable = this.contactSubject.asObservable();
   data: any;
+  data2: any;
   update: boolean = false;
   groups;
 
