@@ -95,7 +95,7 @@
             <form #contactForm="ngForm" (ngSubmit)="updateGroupContact(contactModel); contactForm.reset()">
               <div class="modal-header">
                 <h2>Update group</h2>
-                <i class="fa fa-trash float-right" id="trash" aria-hidden="true" (click)="openDeleteGroupModal(supp2Template)"></i>
+                <i class="fa fa-trash float-right" id="trash" aria-hidden="true" (click)="openDeleteGroupModal(supp6Template)"></i>
               </div>
               <div class="modal-body">
                 <fieldset>
@@ -163,6 +163,24 @@
               </div>
             </form>
           </ng-template>
+
+          <!-- Delete group modal -->
+          <ng-template class="modal-dialog" #supp6Template>
+            <form class="" #contactForm="ngForm" (ngSubmit)="deleteContact(item.id);">
+              <div class="modal-header">
+                <h2>Delete group</h2>
+              </div>
+              <div class="modal-body">
+                <fieldset>
+                  <legend>Are you sure you want to remove the <strong>{{group.name}}</strong> group ?</legend>
+                </fieldset>
+              </div>
+              <div class="modal-footer justify-content-between">
+                <a class="btn float-left" (click)="modalRef5.hide(); openUpdateGroupModal(supp5Template)">No</a>
+                <button class="btn float-right" type="submit">Yes</button>
+              </div>
+            </form>
+          </ng-template>
           
           <!-- Display contacts group modal -->
           <ng-template class="modal-dialog" #supp4Template>
@@ -197,7 +215,7 @@
   </ng-template>
   <!-- New Group Modal -->
   <ng-template class="modal-dialog" #supp3Template>
-    <form #contactForm="ngForm" (ngSubmit)="createContact(contactModel); contactForm.reset()">
+    <form #groupForm="ngForm" (ngSubmit)="createGroup(groupModel); groupForm.reset()">
       <div class="modal-header">
         <h2>Create new group</h2>
       </div>
@@ -208,7 +226,7 @@
             <div class="form-group col-sm-12">
               <label for="groupName">Group's Name</label>
               <input class="form-control" id="groupName" type="text" name="groupName" placeholder="Enter a group's name"
-                      [(ngModel)]="groupName" #contactGname="ngModel"/>
+                      [(ngModel)]="groupModel.name" #contactGname="ngModel"/>
             </div>
           </div>
           <div class="row col-sm-12" style="margin: auto">
@@ -235,7 +253,7 @@
             </div>
 
             <div class="group-contacts-results row col-12" style="margin: auto" *ngIf="selectedContacts.length > 0">
-              <div *ngFor="let contact of selectedContacts" class="groupContact col-12">
+              <div *ngFor="let contact of selectedContacts" class="groupContact col-12" >
                 <div class="group-contact-name">
                   <span class="firstName">{{ contact.firstName }}</span>
                   <strong style="margin-left: 5px;">{{ contact.lastName }}</strong>

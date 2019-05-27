@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from "rxjs/operators";
 import { BehaviorSubject } from 'rxjs';
 import { ContactModel } from '../models/contact.model';
+import { GroupModel } from '../models/group.model';
 
 
 @Injectable({
@@ -13,7 +14,7 @@ export class ContactService {
   constructor(private httpClient: HttpClient) { }
 
   url = '/assets/mocks/db.json';
-  serverUrl = 'http://localhost:8081/contacts';
+  serverUrl = 'http://localhost:8081/';
 
   contactSubject: BehaviorSubject<any> = new BehaviorSubject<any>({ data: null, isFiltered: false, value : "", update: false });
   contactSubjectObservable = this.contactSubject.asObservable();
@@ -23,7 +24,7 @@ export class ContactService {
   groups;
 
   retrieveContactsAndFormatData(){
-    return this.httpClient.get(this.serverUrl).pipe(map(res => {
+    return this.httpClient.get(this.serverUrl + 'contacts').pipe(map(res => {
       this.data = res;
       return this.formatData(res);
     }));
@@ -34,7 +35,7 @@ export class ContactService {
   }
 
   getData(){
-    return this.httpClient.get(this.serverUrl);
+    return this.httpClient.get(this.serverUrl + 'contacts');
   };
   
   formatData(data){
@@ -73,16 +74,24 @@ export class ContactService {
   };
   
   createContact(body: ContactModel){
-    return this.httpClient.post(this.serverUrl, body);
+    return this.httpClient.post(this.serverUrl + 'contacts', body);
   };
   
   deleteContactById(id){
-    return this.httpClient.delete(this.serverUrl + '/' + id);
+    return this.httpClient.delete(this.serverUrl + 'contacts/' + id);
   };
 
   updateContact(id, body: ContactModel){
-    return this.httpClient.put((this.serverUrl + '/' + id), body);
+    return this.httpClient.put((this.serverUrl + 'contacts/' + id), body);
   };
+
+  createGroup(body: GroupModel) {
+    return this.httpClient.post(this.serverUrl + 'groups', body);
+  }
+
+  deleteGroupById(id) {
+    return this.httpClient.delete(this.serverUrl + 'groups/' + id);
+  }
 
   notifyContactListComponent(value: boolean){
     this.update = true;

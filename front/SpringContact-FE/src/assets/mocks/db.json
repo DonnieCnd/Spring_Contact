@@ -136,7 +136,7 @@
         {
             "id": 6,
             "firstName": "Luffy",
-            "lastName": "Monkey",
+            "lastName": "Monkey D",
             "email": "luffy@mugiwara.com",
             "phoneNumber": "0154748699"
         },
@@ -149,8 +149,8 @@
         },
         {
             "id": 8,
-            "firstName": "Roronoa",
-            "lastName": "Zoro",
+            "firstName": "Zoro",
+            "lastName": "Roronoa",
             "email": "zoro@mugiwara.com",
             "phoneNumber": "0982654565"
         },
@@ -220,7 +220,7 @@
         {
             "id": 18,
             "firstName": "Ace",
-            "lastName": "Portgas",
+            "lastName": "Portgas D",
             "email": "ace@portgas.com",
             "phoneNumber": "0620318456"
         }

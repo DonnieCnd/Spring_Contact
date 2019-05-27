@@ -3,6 +3,7 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {NgForm} from '@angular/forms';
 import { ContactService } from '../contact/services/contact.service';
 import { ContactModel } from '../contact/models/contact.model';
+import { GroupModel } from '../contact/models/group.model';
 
 @Component({
   selector: 'app-header',
@@ -15,11 +16,13 @@ export class HeaderComponent implements OnInit {
 
   contactForm = NgForm;
   contactModel = new ContactModel();
+  groupModel = new GroupModel();
   modalSup: BsModalRef;
   modalRef: BsModalRef;
   modalRef2: BsModalRef;
   modalRef3: BsModalRef;
   modalRef4: BsModalRef;
+  modalRef5: BsModalRef;
   selectedContacts = [];
   contacts: any;
   matchingContacts = [];
@@ -73,6 +76,16 @@ export class HeaderComponent implements OnInit {
     this.modalSup.hide();  
   }
 
+  createGroup(body){
+    this.groupModel.contacts = this.selectedContacts;
+    this.contactService.createGroup(body).subscribe(res => {
+    },
+    (error) => {
+      console.log('an error occured during post request', error);
+    })
+    this.modalRef2.hide();  
+  }
+
   displayContactsGroupCard(template: TemplateRef<any>) {
     this.modalRef3 = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
     this.modalRef.hide();
@@ -91,6 +104,12 @@ export class HeaderComponent implements OnInit {
     this.modalRef4 = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
     this.modalRef.hide();
     this.modalRef= null;
+  }
+
+  openDeleteGroupModal(template: TemplateRef<any>) {
+    this.modalRef5 = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
+    this.modalRef4.hide();
+    this.modalRef4 = null;
   }
   
   openNewGroupModal(template: TemplateRef<any>) {
