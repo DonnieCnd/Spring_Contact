@@ -7,7 +7,7 @@
       <h1 class="search">Contacts</h1>
     </div>
     <div class="plus">
-      <i style="font-size:24px" class="fa" (click)="addContact(suppTemplate)">&#xf067;</i>
+      <i style="font-size:24px" class="fa" (click)="createContactModal(suppTemplate)">&#xf067;</i>
     </div>
   </div>
   <div class="row row-search">
@@ -92,7 +92,7 @@
 
           <!-- Update contacts group modal -->
           <ng-template class="modal-dialog" #supp5Template>
-            <form #contactForm="ngForm" (ngSubmit)="updateGroupContact(contactModel); contactForm.reset()">
+            <form #contactForm="ngForm" (ngSubmit)="updateGroup(group.id, group)">
               <div class="modal-header">
                 <h2>Update group</h2>
                 <i class="fa fa-trash float-right" id="trash" aria-hidden="true" (click)="openDeleteGroupModal(supp6Template)"></i>
@@ -166,7 +166,7 @@
 
           <!-- Delete group modal -->
           <ng-template class="modal-dialog" #supp6Template>
-            <form class="" #contactForm="ngForm" (ngSubmit)="deleteContact(item.id);">
+            <form class="" #contactForm="ngForm" (ngSubmit)="deleteGroup(group.id);">
               <div class="modal-header">
                 <h2>Delete group</h2>
               </div>

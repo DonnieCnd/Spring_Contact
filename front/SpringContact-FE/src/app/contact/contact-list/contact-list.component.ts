@@ -38,6 +38,17 @@ export class ContactListComponent implements OnInit {
     });
   
   }
+
+  isEmpty(object){
+    if(!object){
+      return false;
+    }
+    return Object.keys(object).length === 0;
+  }
+
+
+  // Modals
+
   openUpdateModal(template: TemplateRef<any>) {
     this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
   }
@@ -51,17 +62,10 @@ export class ContactListComponent implements OnInit {
   openContactCard(template: TemplateRef<any>) {
     this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
   }
-  
-  createOrUpdateContact() {
-    this.modalRef.hide();
-  }
 
-  isEmpty(object){
-    if(!object){
-      return false;
-    }
-    return Object.keys(object).length === 0;
-  }
+
+
+  // CRUD
 
   deleteContact(id){
     this.contactService.deleteContactById(id).subscribe(res => {
@@ -72,7 +76,6 @@ export class ContactListComponent implements OnInit {
   
   updateContact(id, body) {
     this.contactService.updateContact(id, body).subscribe(res => this.modalRef.hide());
-
   }
 
 }

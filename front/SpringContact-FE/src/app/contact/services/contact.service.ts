@@ -31,7 +31,7 @@ export class ContactService {
   }
 
   getGroups() {
-    return this.httpClient.get(this.url)
+    return this.httpClient.get(this.serverUrl + 'groups')
   }
 
   getData(){
@@ -91,6 +91,10 @@ export class ContactService {
 
   deleteGroupById(id) {
     return this.httpClient.delete(this.serverUrl + 'groups/' + id);
+  }
+
+  updateGroup(id, body:GroupModel) {
+    return this.httpClient.put((this.serverUrl + 'groups/' + id), body);
   }
 
   notifyContactListComponent(value: boolean){

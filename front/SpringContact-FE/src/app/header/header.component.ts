@@ -43,7 +43,7 @@ export class HeaderComponent implements OnInit {
     this.getData();
     this.contactService.getGroups().subscribe(res => {
       this.groups = res;
-      this.groups = this.groups.groups
+      // this.groups = this.groups.groups
       console.log(this.groups)
     })
   }
@@ -55,15 +55,16 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  addContact(template: TemplateRef<any>) {
-    this.modalSup = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-success'}));
-  }
-
-
+  
+  
   filter(value){
     this.contactService.setFiltering(value);
   }
-
+  
+  
+  
+  // CRUD
+  
   createContact(body){
     this.contactService.createContact(body).subscribe(res => {
       // console.log('success', res);
@@ -75,15 +76,51 @@ export class HeaderComponent implements OnInit {
     })
     this.modalSup.hide();  
   }
-
+  
   createGroup(body){
     this.groupModel.contacts = this.selectedContacts;
     this.contactService.createGroup(body).subscribe(res => {
+      this.groups = res;
     },
     (error) => {
       console.log('an error occured during post request', error);
     })
     this.modalRef2.hide();  
+  }
+  
+  deleteGroup(id) {
+    this.contactService.deleteGroupById(id).subscribe(res => {
+      console.log('delete with success')
+      this.contactService.getGroups().subscribe(res => {
+        this.groups = res;
+      })
+    },
+    (error) => {
+      console.log('an error occured during post request', error);
+    })
+    this.modalRef5.hide();
+  }
+
+  updateGroup(id, body) {
+    console.log(body);
+    this.contactService.updateGroup(id, body).subscribe(res => {
+      console.log('update with success')
+      this.contactService.getGroups().subscribe(res => {
+        this.groups = res;
+      })
+    },
+    (error) => {
+      console.log('an error occured during post request', error);
+    })      
+    this.modalRef4.hide();
+  }
+  
+  
+  
+  // Modals
+
+  createContactModal(template: TemplateRef<any>) {
+    this.modalSup = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-success'}));
   }
 
   displayContactsGroupCard(template: TemplateRef<any>) {
@@ -117,6 +154,10 @@ export class HeaderComponent implements OnInit {
     this.modalRef.hide();
     this.modalRef = null;
   }
+
+
+
+  // Array filter
 
   displayMatchingContacts(value) {
     if(value != ''){ 
