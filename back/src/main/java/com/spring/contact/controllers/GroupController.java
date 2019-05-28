@@ -33,7 +33,7 @@ public class GroupController {
     }
 
     @PutMapping("/groups/{id}")
-    public List<GroupEntity> updateGroup(@RequestBody GroupEntity groupEntity, Long id ){
+    public List<GroupEntity> updateGroup(@RequestBody GroupEntity groupEntity,@PathVariable Long id ){
         groupService.updateGroup(groupEntity, id);
         return groupService.retrieveAllGroups();
     }
