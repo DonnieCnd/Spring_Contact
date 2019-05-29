@@ -97,10 +97,6 @@ export class ContactService {
     return this.httpClient.put((this.serverUrl + 'groups/' + id), body);
   }
 
-  createContactOnGroup(groupId, body:GroupModel) {
-    return this.httpClient.put((this.serverUrl + 'groups/' + groupId + '/contacts/'), body);
-  }
-
   deleteContactOnGroup(groupId, contactId) {
     return this.httpClient.delete(this.serverUrl + 'groups/' + groupId + '/contacts/' + contactId);
   }

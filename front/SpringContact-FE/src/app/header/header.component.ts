@@ -4,6 +4,7 @@ import {NgForm} from '@angular/forms';
 import { ContactService } from '../contact/services/contact.service';
 import { ContactModel } from '../contact/models/contact.model';
 import { GroupModel } from '../contact/models/group.model';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -85,6 +86,10 @@ export class HeaderComponent implements OnInit {
     (error) => {
       console.log('an error occured during post request', error);
     })
+    this.matchingContacts = this.contacts.map( x => {
+      x.selected = false;
+      return x;
+    })
     this.modalRef2.hide();  
   }
   
@@ -102,7 +107,9 @@ export class HeaderComponent implements OnInit {
   }
 
   updateGroup(id, body) {
-    console.log(body);
+    for (let contact of this.selectedContacts)
+      body.contacts.push(contact)
+    console.log(body.contacts);
     this.contactService.updateGroup(id, body).subscribe(res => {
       console.log('update with success')
       this.contactService.getGroups().subscribe(res => {
@@ -113,12 +120,6 @@ export class HeaderComponent implements OnInit {
       console.log('an error occured during post request', error);
     })      
     this.modalRef4.hide();
-  }
-
-  createContactOnGroup(groupId, body) {
-    this.contactService.createContactOnGroup(groupId, body).subscribe(res => {
-      console.log('create with success mother fucker', res)
-    })
   }
 
   deleteContactOnGroup (groupId, contactId) {
