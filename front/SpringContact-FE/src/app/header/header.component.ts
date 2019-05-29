@@ -155,7 +155,6 @@ export class HeaderComponent implements OnInit {
   openUpdateGroupModal(template: TemplateRef<any>) {
     this.modalRef4 = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
     this.modalRef.hide();
-    this.modalRef= null;
   }
 
   openDeleteGroupModal(template: TemplateRef<any>) {
