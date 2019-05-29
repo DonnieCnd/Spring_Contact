@@ -114,6 +114,20 @@ export class HeaderComponent implements OnInit {
     })      
     this.modalRef4.hide();
   }
+
+  createContactOnGroup(groupId, body) {
+    this.contactService.createContactOnGroup(groupId, body).subscribe(res => {
+      console.log('create with success mother fucker', res)
+    })
+  }
+
+  deleteContactOnGroup (groupId, contactId) {
+    this.contactService.deleteContactOnGroup(groupId, contactId).subscribe(res => {
+      console.log('delete with success mother fucker', res)
+    })
+    this.modalRef4.hide();
+  }
+
   
   
   
