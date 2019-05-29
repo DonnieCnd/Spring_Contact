@@ -7,6 +7,10 @@ import com.spring.contact.repositories.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.swing.text.html.Option;
+import javax.transaction.Transactional;
 import java.security.acl.Group;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +18,10 @@ import java.util.Optional;
 @Service
 
 public class GroupService {
+
+    @PersistenceContext
+    EntityManager entityManager;
+
 
     @Autowired
     private GroupRepository groupRepository;
@@ -35,10 +43,21 @@ public class GroupService {
         return groupRepository.findAll();
     }
 
-    public void updateGroup(GroupEntity groupEntity, Long id){
+    public void updateGroup(GroupEntity groupEntity, Long id) {
         Optional<GroupEntity> optionalGroupEntity = groupRepository.findById(id);
         if(optionalGroupEntity.isPresent()){
             groupRepository.save(groupEntity);
+        }
+
+    }
+
+    @Transactional
+    public void deleteContactGroup(Long groupId, Long contactId){
+        Optional<GroupEntity> optionalGroupEntity = groupRepository.findById(groupId);
+        if(optionalGroupEntity.isPresent()) {
+            List<ContactEntity> contacts = optionalGroupEntity.get().getContacts();
+            ContactEntity contact = entityManager.find(ContactEntity.class, contactId);
+            entityManager.remove(contact);
         }
     }
 }
