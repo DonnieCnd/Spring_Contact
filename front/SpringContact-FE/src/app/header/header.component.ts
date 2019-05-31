@@ -125,8 +125,9 @@ export class HeaderComponent implements OnInit {
   deleteContactOnGroup (groupId, contactId) {
     this.contactService.deleteContactOnGroup(groupId, contactId).subscribe(res => {
       console.log('delete with success mother fucker', res)
+      this.deleteSelectedContact(contactId)
+      this.getData();
     })
-    this.modalRef4.hide();
   }
 
   
