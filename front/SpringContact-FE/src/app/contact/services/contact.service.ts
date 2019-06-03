@@ -12,7 +12,6 @@ export class ContactService {
 
   constructor(private httpClient: HttpClient) { }
 
-  // url = '/assets/mocks/db.json';
   serverUrl = 'http://localhost:8081/';
 
   private dataSubject: BehaviorSubject<any> = new BehaviorSubject<any>([]);
@@ -20,12 +19,12 @@ export class ContactService {
 
   setData(data){
     this.dataSubject.next(data);
+    this.data = data;
   }
 
   getContacts(){
-    if(this.dataSubject.getValue().length === 0){
+    if(this.dataSubject.getValue().length === 0)
       this.fetchAPI();
-    }
     return this.dataSubject.asObservable();
   }
   
@@ -40,28 +39,32 @@ export class ContactService {
   }
 
   formatData(data){
-
     let results = []; 
-    
-    for(let contact of data.contacts){
-      
+
+    for(let contact of data.contacts){  
       let letter;
       contact.lastName ? letter = contact.lastName.charAt(0).toUpperCase() : letter = contact.firstName.charAt(0).toUpperCase();
-      
       if(!results[letter])
         results[letter] = [];
-      
       results[letter].push(contact);    
     }
-    
     return results;  
-  
   }
   
-  filterContacts(input){
-    return this.data.contacts.filter(x => {
-      return x.lastName ? x.lastName.toLowerCase().includes(input.toLowerCase()) || x.firstName.toLowerCase().includes(input.toLowerCase()) : x.firstName.toLowerCase().includes(input.toLowerCase());
+  filterContacts(event){
+    let value = event.target.value;
+    let results = [];
+    
+    results = this.data.contacts.filter(x => {
+      return x.lastName ? x.lastName.toLowerCase().includes(value.toLowerCase()) || 
+      x.firstName.toLowerCase().includes(value.toLowerCase()) : x.firstName.toLowerCase().includes(value.toLowerCase());
     })
+    
+    if(event.target.id === 'searchbar ng-contact-search')
+      return results; 
+    
+    this.dataSubject.next({ ...this.dataSubject.value, contacts: results });
+  
   }
   
   createContact(body: ContactModel){

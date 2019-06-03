@@ -10,9 +10,7 @@ import {NgForm} from '@angular/forms';
 })
 
 export class ContactListComponent implements OnInit {
-  @ViewChild('contactForm')
 
-  contactForm = NgForm;
   modalRef: BsModalRef | null;
   modalRef2: BsModalRef;
   data: any;
@@ -23,19 +21,11 @@ export class ContactListComponent implements OnInit {
     this.retrieveData();
   }
 
-  formatDataStream(res){
-    return this.contactService.formatData(res); 
-  } 
-
   retrieveData(){
     this.contactService.getContacts().subscribe(res => {
       if(res.contacts)
-        this.data = this.formatDataStream(res);
+        this.data = this.contactService.formatData(res);
     })
-  }
-
-  isEmpty(response){
-    return Object.keys(response).length === 0;
   }
 
 }  
@@ -57,14 +47,6 @@ export class ContactListComponent implements OnInit {
 //   createOrUpdateContact() {
 //     this.modalRef.hide();
 //   }
-
-//   isEmpty(object){
-//     if(!object){
-//       return false;
-//     }
-//     return Object.keys(object).length === 0;
-//   }
-// }
 
   // deleteContact(id){
   //   this.contactService.deleteContactById(id).subscribe(res => {

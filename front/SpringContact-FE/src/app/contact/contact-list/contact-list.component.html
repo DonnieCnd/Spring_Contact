@@ -21,7 +21,7 @@
     <!-- Update Contact Modal -->
     <ng-template class="modal-dialog" #suppTemplate>
       
-      <form class="" #contactForm="ngForm" (ngSubmit)="updateContact(item.id, item)">
+      <form (ngSubmit)="updateContact(item.id, item)">
         <div class="modal-header">
           <h2>Update contact</h2>
           <i class="fa fa-trash float-right" id="trash" aria-hidden="true" (click)="openDeleteModal(supp2Template)"></i>

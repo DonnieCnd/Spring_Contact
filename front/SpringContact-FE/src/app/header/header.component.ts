@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
-import {NgForm} from '@angular/forms';
 import { ContactService } from '../contact/services/contact.service';
 import { ContactModel } from '../contact/models/contact.model';
 import { GroupModel } from '../contact/models/group.model';
@@ -10,94 +9,66 @@ import { GroupModel } from '../contact/models/group.model';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
+
 export class HeaderComponent implements OnInit {
 
-
-  contactForm = NgForm;
   contactModel = new ContactModel();
   groupModel = new GroupModel();
   modalSup: BsModalRef;
   modalRef: BsModalRef;
   modalRef2: BsModalRef;
-  
-  contacts: ContactModel[] = []; 
-  matchingContacts = [];
-  name: string;
-  searchTerm: string;
-  data;
+  data: any;
 
 
   constructor(private _MODAL_SERVICE: BsModalService, private contactService: ContactService) { }
 
   ngOnInit(){
+    this.retrieveData();
+  }
+
+  retrieveData(){
     this.contactService.getContacts().subscribe(res => {
-      this.data = res;
-      console.log(this.data);
+      if(Object.keys(res).length !== 0){
+        this.data = res;
+        this.data.contacts = this.data.contacts.map(x => { return { ...x, selected: false }})
+      }
     })
   }
-
+  
   searchContacts(event){
-    if(event.target.id === "searchbar ng-contact-search")
-      this.matchingContacts = this.contactService.filterContacts(event);
-    else
-      this.contactService.filterContacts(event);
+    if(event.target.id === 'searchbar ng-contact-search'){
+      let results = this.contactService.filterContacts(event);
+      this.data = { ...this.data, contacts: results };
+      console.log(this.data.contacts);  
+    } else {
+        this.contactService.filterContacts(event);
+      }
   }
+  
+  getMatchingContacts(){
+    return this.data.contacts.filter(x => !x.selected);
+  }
+  
+  toggleSelect(contact){
+    contact.selected = true;
+    this.selectContact(contact);
+    
+    if(this.getMatchingContacts().length === 0){
+      this.data = {...this.data, contacts: this.contactService.filterContacts({ target: { id: 'searchbar ng-contact-search', value: ''}})};
+    }
 
-  select(contact: ContactModel){
+  } 
+  
+  selectContact(contact){
     if(!this.groupModel.contacts)
       this.groupModel.contacts = [];
-      // this.setSelection(contact.id);
     this.groupModel.contacts.push(contact);
   }
-
-  deleteSelectedContact(id){
-    this.setSelection(id);
-    this.groupModel.contacts = this.groupModel.contacts.filter(x => x.id !== id);
+  
+  deselectContact(contact){
+    contact.selected = false;
+    this.groupModel.contacts = this.groupModel.contacts.filter(x => x.id !== contact.id);
   }
-
-  setSelection(id){
-
-  }
-
-  // setSelection(id){
-  //   this.data = this.data.filter(x => {
-  //     if(x.id === id){
-  //       x.selected = !x.selected;
-  //     }
-  //     return true;
-  //   })
-  // }
-
-  createGroup(body){
-    this.contactService.createGroup(body).subscribe(res => console.log(res));
-  }
-
-  trackByIndex(index: number, item) {
-    return index;
-  }
-
-  // select(contact){
-  //   console.log(this.data) 
-  //   this.data = this.data.filter(x => {
-  //     if(x.id === contact.id){
-  //       x.selected= !x.selected;
-  //     }
-  //     return x;
-  //   })
-  //   console.log(this.data);   
-  // }
-
-
-  // getMatchingContacts(value){
-  //     this.matchingContacts = this.matchingContacts.filter(x => {
-  //       if(!x.selected){
-  //         if(x.lastName){
-  //           return x.firstName.substring(0, value.length).toLowerCase() === value.toLowerCase() || x.lastName.substring(0, value.length).toLowerCase() === value.toLowerCase();
-  //         }
-  //       }
-  //     }) 
-  //   }
-
 
   addContact(template: TemplateRef<any>) {
     this.modalSup = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-success'}));
@@ -110,14 +81,18 @@ export class HeaderComponent implements OnInit {
     (error) => {
       console.log('an error occured during post request : ', error);
     })
+    this.modalSup.hide();
+  }
 
-    // this.modalSup.hide();
+  createGroup(body){
+    this.contactService.createGroup(body).subscribe(res => {
+      console.log("group added with success");
+      this.groupModel.contacts = [];
+    })
   }
   
   openDisplayGroupModal(template: TemplateRef<any>) {
     this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
-    this.contacts = [];
-    console.log(this.contacts)
   }
   
   openNewGroupModal(template: TemplateRef<any>) {
@@ -127,46 +102,3 @@ export class HeaderComponent implements OnInit {
   }
 
 }
-
-  // displayMatchingContacts(value){
-  //   if(value.length > 0){
-  //     this.getMatchingContacts(value);
-  //     console.log(this.matchingContacts);
-  //   }
-  // }
-
-  // log(item){
-  //   this.selectedContacts.push(item);
-  //   this.setSelected(item.id)
-  //   this.sortContactsByLastName();
-  //   console.log(this.matchingContacts)
-  // }
-
-  // sortContactsByLastName(){
-  //   this.selectedContacts = this.selectedContacts.sort((a,b) => {
-  //     if(a.lastName.toLowerCase() < b.lastName.toLowerCase()){
-  //       return -1;
-  //     }
-  //     if(a.lastName.toLowerCase() > b.lastName.toLowerCase()){
-  //       return 1;
-  //     }
-  //   })
-  // }
-
-  // deleteSelectedContact(id){
-  //   this.selectedContacts = this.selectedContacts.filter(x => x.id !== id);
-  //   this.setSelected(id);
-  // }
-
-  // setSelected(id){
-  //    this.contacts = this.contacts.filter(x => {
-  //     if(x.id === id){
-  //      return x.selected = !x.selected;
-  //     }
-  //   })
-  //   console.log(this.contacts);
-  // }
-
-   // resetSearchField(){
-  //   this.searchTerm = '';
-  // }
