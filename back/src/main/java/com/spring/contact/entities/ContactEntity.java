@@ -25,7 +25,7 @@ public class ContactEntity {
     private String lastName;
     private String email;
     private String phoneNumber;
-    @ManyToMany(mappedBy = "contacts", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "contacts", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<GroupEntity> groups;
 }

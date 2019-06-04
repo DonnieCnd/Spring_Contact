@@ -36,6 +36,10 @@ export class ContactListComponent implements OnInit {
   
   
   // Modals
+
+  updateContact(id, body){
+    this.contactService.updateContact(id, body).subscribe(res => console.log(res));
+  }
   
   openContactCard(template: TemplateRef<any>) {
     this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));

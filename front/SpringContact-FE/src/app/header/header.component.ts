@@ -3,7 +3,6 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import { ContactService } from '../contact/services/contact.service';
 import { ContactModel } from '../contact/models/contact.model';
 import { GroupModel } from '../contact/models/group.model';
-import { timingSafeEqual } from 'crypto';
 
 @Component({
   selector: 'app-header',
@@ -102,6 +101,10 @@ export class HeaderComponent implements OnInit {
       //   console.log('an error occured during post request : ', error);
       // })
     }
+
+    updateContact(id, body){
+      this.contactService.updateContact(id, body).subscribe(res => console.log(res));
+    }
     
     createGroup(body){
       console.log(this.groupModel)
@@ -114,6 +117,7 @@ export class HeaderComponent implements OnInit {
 
     updateGroup(id, body){
       body.contacts = this.groupModel.contacts;
+      console.log(body)
       this.contactService.updateContact(id, body).subscribe(res => {
         console.log("ok",res),
         (err) => {
