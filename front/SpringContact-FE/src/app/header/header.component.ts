@@ -17,6 +17,9 @@ export class HeaderComponent implements OnInit {
   modalSup: BsModalRef;
   modalRef: BsModalRef;
   modalRef2: BsModalRef;
+  modalRef3: BsModalRef;
+  modalRef4: BsModalRef;
+  modalRef5: BsModalRef;
   data: any;
 
 

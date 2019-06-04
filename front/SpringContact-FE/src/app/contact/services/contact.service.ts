@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { tap } from "rxjs/operators";
 import { BehaviorSubject, forkJoin } from 'rxjs';
 import { ContactModel } from '../models/contact.model';
+import { GroupModel } from '../models/group.model';
 
 
 @Injectable({
@@ -27,6 +28,14 @@ export class ContactService {
       this.fetchAPI();
     return this.dataSubject.asObservable();
   }
+
+  getGroups() {
+    return this.httpClient.get(this.serverUrl + 'groups')
+  }
+
+  getData(){
+    return this.httpClient.get(this.serverUrl + 'contacts');
+  };
   
   fetchAPI(){
     let getContacts = this.httpClient.get(this.serverUrl + '/contacts').toPromise();
@@ -81,6 +90,22 @@ export class ContactService {
 
   createGroup(body){
     return this.httpClient.post(this.serverUrl + '/groups/', body).pipe(tap(res => this.setData({...this.dataSubject.value, groups: res })));
+  }
+  
+  createGroup(body: GroupModel){
+    return this.httpClient.post(this.serverUrl + 'groups', body);
+  }
+
+  deleteGroupById(id){
+    return this.httpClient.delete(this.serverUrl + 'groups/' + id);
+  }
+
+  updateGroup(id, body:GroupModel){
+    return this.httpClient.put((this.serverUrl + 'groups/' + id), body);
+  }
+
+  deleteContactOnGroup(groupId, contactId){
+    return this.httpClient.delete(this.serverUrl + 'groups/' + groupId + '/contacts/' + contactId);
   }
 
 }

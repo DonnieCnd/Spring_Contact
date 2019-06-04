@@ -33,6 +33,21 @@ export class ContactListComponent implements OnInit {
 //   openUpdateModal(template: TemplateRef<any>) {
 //     this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
 //   }
+  }
+
+//  isEmpty(object){
+//     if(!object){
+//       return false;
+//     }
+//     return Object.keys(object).length === 0;
+//   }
+
+
+  // Modals
+
+  openUpdateModal(template: TemplateRef<any>) {
+    this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
+  }
   
 //   openDeleteModal(template: TemplateRef<any>) {
 //     this.modalRef2 = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
@@ -40,6 +55,7 @@ export class ContactListComponent implements OnInit {
 //     this.modalRef = null;
 //   }
   
+
 //   openContactCard(template: TemplateRef<any>) {
 //     this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
 //   }
@@ -59,4 +75,23 @@ export class ContactListComponent implements OnInit {
   //   this.contactService.updateContact(id, body).subscribe(res => this.modalRef.hide());
 
   // }
+
+  openContactCard(template: TemplateRef<any>) {
+    this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
+  }
+
+
+
+  // CRUD
+
+//   deleteContact(id){
+//     this.contactService.deleteContactById(id).subscribe(res => {
+//       this.getData(); 
+//     });
+//     this.modalRef2.hide();
+//   }
+  
+//   updateContact(id, body) {
+//     this.contactService.updateContact(id, body).subscribe(res => this.modalRef.hide());
+//   }
 
