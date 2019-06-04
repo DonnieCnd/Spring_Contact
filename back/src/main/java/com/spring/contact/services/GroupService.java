@@ -40,6 +40,7 @@ public class GroupService {
         return groupRepository.findAll();
     }
 
+    @Transactional
     public void updateGroup(GroupEntity groupEntity, Long id) {
         Optional<GroupEntity> optionalGroupEntity = groupRepository.findById(id);
         if(optionalGroupEntity.isPresent()){
