@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { ContactService } from '../services/contact.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
-import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-contact-list',
@@ -24,74 +23,64 @@ export class ContactListComponent implements OnInit {
   retrieveData(){
     this.contactService.getContacts().subscribe(res => {
       if(res.contacts)
-        this.data = this.contactService.formatData(res);
+      this.data = this.contactService.formatData(res);
     })
   }
+    
 
-}  
-  
 //   openUpdateModal(template: TemplateRef<any>) {
-//     this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
-//   }
-  }
-
-//  isEmpty(object){
-//     if(!object){
-//       return false;
-//     }
-//     return Object.keys(object).length === 0;
-//   }
-
-
+  //     this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
+  //   }
+  
+  
+  
+  
   // Modals
-
-  openUpdateModal(template: TemplateRef<any>) {
-    this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
-  }
   
-//   openDeleteModal(template: TemplateRef<any>) {
-//     this.modalRef2 = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
-//     this.modalRef.hide();
-//     this.modalRef = null;
-//   }
-  
-
-//   openContactCard(template: TemplateRef<any>) {
-//     this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
-//   }
-  
-//   createOrUpdateContact() {
-//     this.modalRef.hide();
-//   }
-
-  // deleteContact(id){
-  //   this.contactService.deleteContactById(id).subscribe(res => {
-  //     this.getData(); 
-  //   });
-  //   this.modalRef2.hide();
-  // }
-  
-  // updateContact(id, body) {
-  //   this.contactService.updateContact(id, body).subscribe(res => this.modalRef.hide());
-
-  // }
-
   openContactCard(template: TemplateRef<any>) {
     this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
   }
-
-
-
-  // CRUD
-
-//   deleteContact(id){
-//     this.contactService.deleteContactById(id).subscribe(res => {
-//       this.getData(); 
-//     });
-//     this.modalRef2.hide();
-//   }
   
-//   updateContact(id, body) {
-//     this.contactService.updateContact(id, body).subscribe(res => this.modalRef.hide());
-//   }
+  openUpdateModal(template: TemplateRef<any>) {
+    this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
+  }
 
+    openDeleteModal(template: TemplateRef<any>) {
+      this.modalRef2 = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
+      this.modalRef.hide();
+      this.modalRef = null;
+    }
+  }
+    
+      //   createOrUpdateContact() {
+      //     this.modalRef.hide();
+      //   }
+          
+          // updateContact(id, body) {
+            //   this.contactService.updateContact(id, body).subscribe(res => this.modalRef.hide());
+            
+            // }
+            
+            
+            
+            
+            // CRUD
+            
+            //   deleteContact(id){
+              //     this.contactService.deleteContactById(id).subscribe(res => {
+                //       this.getData(); 
+                //     });
+                //     this.modalRef2.hide();
+                //   }
+                
+                //   updateContact(id, body) {
+                  //     this.contactService.updateContact(id, body).subscribe(res => this.modalRef.hide());
+                  //   }
+                  
+                
+                    //  isEmpty(object){
+                    //     if(!object){
+                    //       return false;
+                    //     }
+                    //     return Object.keys(object).length === 0;
+                    //   }

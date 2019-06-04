@@ -3,6 +3,7 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import { ContactService } from '../contact/services/contact.service';
 import { ContactModel } from '../contact/models/contact.model';
 import { GroupModel } from '../contact/models/group.model';
+import { timingSafeEqual } from 'crypto';
 
 @Component({
   selector: 'app-header',
@@ -31,77 +32,196 @@ export class HeaderComponent implements OnInit {
 
   retrieveData(){
     this.contactService.getContacts().subscribe(res => {
-      if(Object.keys(res).length !== 0){
+      if(!this.isEmpty(res)){
         this.data = res;
-        this.data.contacts = this.data.contacts.map(x => { return { ...x, selected: false }})
+        this.data.contacts = this.data.contacts
+        // .map(x => { return { ...x, selected: false }})
       }
     })
+  }
+
+  isEmpty(obj){
+    return Object.keys(obj).length === 0;
   }
   
   searchContacts(event){
     if(event.target.id === 'searchbar ng-contact-search'){
       let results = this.contactService.filterContacts(event);
-      this.data = { ...this.data, contacts: results };
-      console.log(this.data.contacts);  
+      this.data = { ...this.data, contacts: results };  
     } else {
         this.contactService.filterContacts(event);
       }
   }
   
   getMatchingContacts(){
-    return this.data.contacts.filter(x => !x.selected);
-  }
+    if(!this.groupModel.contacts)
+      this.groupModel.contacts = [];
+
+    return this.data.contacts.filter(x => {
+      for(let contact of this.groupModel.contacts){
+        if(x.id === contact.id)
+          return false;
+      }
+      return true;
+    })
   
+  }
+    
   toggleSelect(contact){
-    contact.selected = true;
+    // contact.selected = true;
     this.selectContact(contact);
     
-    if(this.getMatchingContacts().length === 0){
-      this.data = {...this.data, contacts: this.contactService.filterContacts({ target: { id: 'searchbar ng-contact-search', value: ''}})};
-    }
-
-  } 
+    // if(this.getMatchingContacts().length === 0)
+    //   this.data = {...this.data, contacts: this.contactService.filterContacts({ target: { id: 'searchbar ng-contact-search', value: ''}})};
+    
+  }
   
   selectContact(contact){
+    
     if(!this.groupModel.contacts)
       this.groupModel.contacts = [];
     this.groupModel.contacts.push(contact);
+    console.log(this.data)
   }
   
   deselectContact(contact){
-    contact.selected = false;
+    // contact.selected = false;
     this.groupModel.contacts = this.groupModel.contacts.filter(x => x.id !== contact.id);
   }
-
+  
   addContact(template: TemplateRef<any>) {
     this.modalSup = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-success'}));
   }
-
+  
   createContact(body){
-    this.contactService.createContact(body).subscribe(res => {
-      console.log('contact created with success', res);
-    },
-    (error) => {
-      console.log('an error occured during post request : ', error);
-    })
+    this.contactService.createContact(body).subscribe(res => console.log("contact created with success !", res))
     this.modalSup.hide();
+    //   console.log('contact created with success', res);
+    // },
+    // (error) => {
+      //   console.log('an error occured during post request : ', error);
+      // })
+    }
+    
+    createGroup(body){
+      console.log(this.groupModel)
+      this.contactService.createGroup(body).subscribe(res => {
+        console.log("group added with success", res);
+        this.groupModel.contacts = [];
+        this.modalRef2.hide();
+      })
+    }
+
+    updateGroup(id, body){
+      body.contacts = this.groupModel.contacts;
+      this.contactService.updateContact(id, body).subscribe(res => {
+        console.log("ok",res),
+        (err) => {
+          console.log("error", err)
+        }
+      })     
+      this.modalRef4.hide();
+    }
+    
+    createContactModal(template: TemplateRef<any>) {
+      this.modalSup = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-success'}));
+    }
+    
+    openDisplayGroupModal(template: TemplateRef<any>) {
+      this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
+    }
+    
+    displayContactsGroupCard(template: TemplateRef<any>) {
+      this.modalRef3 = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
+      this.modalRef.hide();
+      this.modalRef= null;
+    }
+    
+    openNewGroupModal(template: TemplateRef<any>) {
+      this.modalRef2 = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
+      this.modalRef.hide();
+      this.modalRef = null;
+    }
+    
+    openUpdateGroupModal(template: TemplateRef<any>, contacts) {
+      this.groupModel.contacts = [...contacts];
+      console.log(this.groupModel.contacts);
+      this.modalRef4 = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
+      this.modalRef.hide();
+    }
+    
+    deleteContactOnGroup (groupId, contactId) {
+      this.contactService.deleteContactOnGroup(groupId, contactId);
+    }
+    
   }
 
-  createGroup(body){
-    this.contactService.createGroup(body).subscribe(res => {
-      console.log("group added with success");
-      this.groupModel.contacts = [];
-    })
-  }
-  
-  openDisplayGroupModal(template: TemplateRef<any>) {
-    this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
-  }
-  
-  openNewGroupModal(template: TemplateRef<any>) {
-    this.modalRef2 = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
-    this.modalRef.hide();
-    this.modalRef = null;
-  }
 
-}
+  // impl :
+
+  // getMatchingContacts(){
+  //   return this.data.contacts.filter(x => !x.selected); 
+  // }
+    
+  // toggleSelect(contact){
+  //   contact.selected = true;
+  //   this.selectContact(contact);
+    
+  //   if(this.getMatchingContacts().length === 0)
+  //     this.data = {...this.data, contacts: this.contactService.filterContacts({ target: { id: 'searchbar ng-contact-search', value: ''}})};
+    
+  // }
+  
+  // selectContact(contact){
+  //   if(!this.groupModel.contacts)
+  //   this.groupModel.contacts = [];
+  //   this.groupModel.contacts.push(contact);
+  // }
+  
+  // deselectContact(contact){
+  //   contact.selected = false;
+  //   this.groupModel.contacts = this.groupModel.contacts.filter(x => x.id !== contact.id);
+  // }
+
+
+
+
+
+      //   compare(array){
+      //     let res = [];
+      
+      //     for(let i = 0; i < contacts.length; i++){
+      //         let index = -1;
+      //         let element = contacts[i].id
+      //         for(let j = 0; j < array.length; j++){
+      //             if(array[j].id === element){
+      //                 index = 1;
+      //             }
+      //         }
+      //         if(index === -1){
+      //             res.push(contacts[i]);
+      //         }
+      //     }
+      //     console.log(res)
+      // }
+      
+        // compareAndGetMatchingContacts(group){
+        //   let results = [];
+        //   let unavailable = group.contacts.map(x => x.id);
+        //   results = this.data.contacts.filter(x => x.i)
+        //   console.log(unavailable);
+        //   // results = this.data.contacts.filter(x => {
+        //   //   for(let contact of group.contacts){
+        //   //     if(x.id === contact.id)
+        //   //       return false;
+        //   //   }
+        //   //   return true;
+        //   // })
+        //   // return results;
+        // }
+        
+        
+      
+      
+        // [ 3, 4]
+        // [ 1 2 3 4 5 6 7 8 9 10]

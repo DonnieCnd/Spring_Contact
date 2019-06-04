@@ -26,11 +26,12 @@ export class ContactService {
   getContacts(){
     if(this.dataSubject.getValue().length === 0)
       this.fetchAPI();
+    
     return this.dataSubject.asObservable();
   }
 
   getGroups() {
-    return this.httpClient.get(this.serverUrl + 'groups')
+    return this.httpClient.get(this.serverUrl + 'groups');
   }
 
   getData(){
@@ -48,16 +49,23 @@ export class ContactService {
   }
 
   formatData(data){
+    
     let results = []; 
 
     for(let contact of data.contacts){  
+      
       let letter;
+      
       contact.lastName ? letter = contact.lastName.charAt(0).toUpperCase() : letter = contact.firstName.charAt(0).toUpperCase();
+      
       if(!results[letter])
         results[letter] = [];
+      
       results[letter].push(contact);    
+    
     }
     return results;  
+  
   }
   
   filterContacts(event){
@@ -73,7 +81,6 @@ export class ContactService {
       return results; 
     
     this.dataSubject.next({ ...this.dataSubject.value, contacts: results });
-  
   }
   
   createContact(body: ContactModel){
@@ -81,31 +88,27 @@ export class ContactService {
   }
   
   deleteContactById(id){
-    return this.httpClient.delete(this.serverUrl + '/contacts/' + id);
+    return this.httpClient.delete(this.serverUrl + '/contacts/' + id).pipe(tap(res => this.setData({...this.dataSubject.value, contacts: res })))
   }
 
   updateContact(id, body: ContactModel){
-    return this.httpClient.put((this.serverUrl + '/contacts/' + id), body);
+    return this.httpClient.put((this.serverUrl + '/contacts/' + id), body).pipe(tap(res => this.setData({...this.dataSubject.value, contacts: res })))
   }
 
   createGroup(body){
     return this.httpClient.post(this.serverUrl + '/groups/', body).pipe(tap(res => this.setData({...this.dataSubject.value, groups: res })));
   }
-  
-  createGroup(body: GroupModel){
-    return this.httpClient.post(this.serverUrl + 'groups', body);
-  }
 
   deleteGroupById(id){
-    return this.httpClient.delete(this.serverUrl + 'groups/' + id);
+    return this.httpClient.delete(this.serverUrl + 'groups/' + id).pipe(tap(res => this.setData({...this.dataSubject.value, groups: res })));
   }
 
   updateGroup(id, body:GroupModel){
-    return this.httpClient.put((this.serverUrl + 'groups/' + id), body);
+    return this.httpClient.put((this.serverUrl + 'groups/' + id), body).pipe(tap(res => this.setData({...this.dataSubject.value, groups: res })));
   }
 
   deleteContactOnGroup(groupId, contactId){
-    return this.httpClient.delete(this.serverUrl + 'groups/' + groupId + '/contacts/' + contactId);
+    return this.httpClient.delete(this.serverUrl + 'groups/' + groupId + '/contacts/' + contactId).pipe(tap(res => this.setData({...this.dataSubject.value, groups: res })));
   }
 
 }

@@ -74,7 +74,7 @@
         <i style="font-size:22px" class="addGroup fa" id="add" aria-hidden="true" (click)="openNewGroupModal(supp3Template)" >&#xf067;</i>
       </div>
       <div class="modal-body2">
-        <div class="groups" *ngFor="let group of groups; index as i">
+        <div class="groups" *ngFor="let group of data?.groups; index as i">
           <div class="groupRow row">
             <div class="groupInfo col-9">
               <br>
@@ -84,15 +84,15 @@
               </div>
             </div>
             <div class="col-3">
-              <i class="fa fa-pencil float-right" id="pencil" aria-hidden="true" (click)="openUpdateGroupModal(supp5Template)"></i>
+              <i class="fa fa-pencil float-right" id="pencil" aria-hidden="true" (click)="openUpdateGroupModal(supp5Template, group.contacts)"></i>
             </div>
           </div>
-          <hr *ngIf="i != groups.length-1">
-          <br *ngIf="i == groups.length-1"> 
+          <hr *ngIf="i != data?.groups.length-1">
+          <br *ngIf="i == data?.groups.length-1"> 
 
           <!-- Update contacts group modal -->
           <ng-template class="modal-dialog" #supp5Template>
-            <form #contactForm="ngForm" (ngSubmit)="updateGroup(group.id, group)">
+            <form (ngSubmit)="updateGroup(group.id, group)">
               <div class="modal-header">
                 <h2>Update group</h2>
                 <i class="fa fa-trash float-right" id="trash" aria-hidden="true" (click)="openDeleteGroupModal(supp6Template)"></i>
@@ -111,26 +111,47 @@
                     <div class="input-icon form-group col-12">
                       <label>Add contact</label>
                       <span class="fa fa-search search-icon"></span>
-                      <input id="searchbar" 
+                      <input id="searchbar ng-contact-search" 
                       name="search"
                       class="form-control mr-2 has-search" 
                       type="search" 
                       placeholder="Search" 
                       aria-label="Search"
                       [(ngModel)]="searchTerm"
-                      (keyup)="updateMatchingContacts(searchTerm, group)"
+                      (keyup)="searchContacts($event)"
                       (search)="resetSearchField()">
                     </div>
-                    <div class="matching-contacts-results row col-12" style="margin: auto" *ngIf="isFiltered">
-                      <div *ngFor="let contact of matchingContacts" class="matched-contact col-12" (click)="log(contact)">
+                    <div class="matching-contacts-results row col-12" style="margin: auto">
+                      <div *ngFor="let contact of getMatchingContacts(); index as i" class="matched-contact col-12" (click)="toggleSelect(contact)">
                         <div class="matched-contact-name">
                           <span class="firstName">{{ contact.firstName }}</span>
                           <strong style="margin-left: 5px;">{{ contact.lastName }}</strong>
                         </div>
                       </div>  
                     </div>
+                    
+                    <div class="group-contacts-results row col-12" style="margin: auto">
+                      <div *ngFor="let contact of groupModel?.contacts; index as i" class="groupContact col-12">
+                        <div class="group-contact-name">
+                          
+                          <span class="firstName">{{ contact.firstName }}</span>
+                          <strong style="margin-left: 5px;">{{ contact.lastName }}</strong>
+                        </div>
+                        <div class="group-contact-delete">
+                          <i class="fa fa-window-close" aria-hidden="true" (click)="deselectContact(contact)"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <div class="matching-contacts-results row col-12" style="margin: auto" *ngIf="isFiltered">
+                      <div *ngFor="let contact of matchingContacts" class="matched-contact col-12" (click)="log(contact)">
+                        <div class="matched-contact-name">
+                          <span class="firstName">{{ contact.firstName }}</span>
+                          <strong style="margin-left: 5px;">{{ contact.lastName }}</strong>
+                        </div>
+                      </div>  
+                    </div> -->
         
-                    <div class="group-contacts-results row col-12" style="margin: auto" *ngIf="selectedContacts.length > 0">
+                    <!-- <div class="group-contacts-results row col-12" style="margin: auto" *ngIf="selectedContacts.length > 0">
                       <div *ngFor="let contact of selectedContacts" class="groupContact col-12">
                         <div class="group-contact-name">
                           <span class="firstName">{{ contact.firstName }}</span>
@@ -140,9 +161,9 @@
                           <i class="fa fa-window-close" aria-hidden="true" (click)="deleteContactOnGroup(group.id, contact.id)"></i>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
 
-                    <div class="group-contacts-found row col-12" style="margin: auto">
+                    <!-- <div class="group-contacts-found row col-12" style="margin: auto">
                       <div *ngFor="let contact of group.contacts" class="groupContact col-12">
                         <div class="group-contact-name">
                           <span class="firstName">{{ contact.firstName }}</span>
@@ -152,7 +173,7 @@
                           <i class="fa fa-window-close" aria-hidden="true" (click)="deleteContactOnGroup(group.id, contact.id)"></i>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                   </div>   
                 </fieldset>       
               </div>
@@ -201,7 +222,7 @@
             </ng-template>
         </div>
 
-        <div class="not-found row" *ngIf="groups.length == 0">
+        <div class="not-found row" *ngIf="data?.groups.length == 0">
           <div class="image col-12">
             <img src="assets/img/shrugging.png">
           </div>
