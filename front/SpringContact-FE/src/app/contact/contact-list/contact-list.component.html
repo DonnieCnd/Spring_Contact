@@ -1,24 +1,27 @@
 
-  <div *ngIf="!isFiltered; else elseBlock">
-  <div *ngFor="let contact of contacts | keyvalue">
-    <div class="letter"><strong>{{contact.key}}</strong></div>
-    <br>
-    <div class="contactLine" *ngFor="let item of contact.value; index as i">
-      <div class="row contactTable">
-        <div class="col-9">
-          <div class="contactName" (click)="openContactCard(supp3Template)">{{item.firstName}} <strong>{{item.lastName}}</strong>
-          </div>
-        </div>
-        <div class="col-3">
-          <i class="fa fa-pencil float-right" id="pencil" aria-hidden="true" (click)="openUpdateModal(suppTemplate)"></i></div>
-        </div>
+  <!-- <div *ngIf="!isFiltered; else elseBlock"> -->
+  
+    <div *ngFor="let contact of data | keyvalue">
+      <div class="letter"><strong>{{contact.key}}</strong></div>
+        <br>
+      <div class="contactLine" *ngFor="let item of contact.value; index as i">
       
-        <hr *ngIf="i != contact.value.length-1">
-        <br *ngIf="i == contact.value.length-1">
+        <div class="row contactTable">
+  
+          <div class="col-9">
+            <div class="contactName" (click)="openContactCard(supp3Template)">{{item.firstName}} <strong>{{item.lastName}}</strong></div>
+          </div>
+        
+          <div class="col-3">
+            <i class="fa fa-pencil float-right" id="pencil" aria-hidden="true" (click)="openUpdateModal(suppTemplate)"></i></div>
+          </div>
+      
+          <hr *ngIf="i != contact.value.length-1">
+          <br *ngIf="i == contact.value.length-1">
     <!-- Update Contact Modal -->
     <ng-template class="modal-dialog" #suppTemplate>
       
-      <form class="" #contactForm="ngForm" (ngSubmit)="updateContact(item.id, item)">
+      <form (ngSubmit)="updateContact(item.id, item)">
         <div class="modal-header">
           <h2>Update contact</h2>
           <i class="fa fa-trash float-right" id="trash" aria-hidden="true" (click)="openDeleteModal(supp2Template)"></i>
@@ -99,9 +102,9 @@
     </ng-template>
   </div>
 </div>
-</div>
+<!-- </div> -->
 
-<ng-template #elseBlock>
+<!-- <ng-template #elseBlock>
     <div *ngIf="isEmpty(dataSource?.data)">
         <img src="assets/img/shrugging.png">
         <p><strong>Oops you don't have any contact with this name</strong></p>
@@ -124,7 +127,7 @@
       
         <hr *ngIf="i != contact.value.length-1">
         <br *ngIf="i == contact.value.length-1">
-    <!-- Update Contact Modal -->
+    Update Contact Modal
     <ng-template class="modal-dialog" #suppTemplate>
       <form class="" #contactForm="ngForm" (ngSubmit)="updateContact(item.id, item)">        
         <div class="modal-header">
@@ -167,7 +170,7 @@
         </div>
       </form>
     </ng-template>
-    <!-- Delete Contact modal -->
+    Delete Contact modal
     <ng-template class="modal-dialog" #supp2Template>
       <form class="" #contactForm="ngForm" (ngSubmit)="deleteContact()">
         <div class="modal-header">
@@ -184,7 +187,7 @@
         </div>
       </form>
     </ng-template>
-    <!-- Contact Card Modal -->
+    Contact Card Modal
     <ng-template class="modal-dialog" #supp3Template>
       <form class="" #contactForm="ngForm">
         <div class="modal-header">
@@ -207,5 +210,5 @@
     </ng-template>
   </div>
 </div>
-</ng-template>
+</ng-template> -->
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from "rxjs/operators";
-import { BehaviorSubject } from 'rxjs';
+import { tap } from "rxjs/operators";
+import { BehaviorSubject, forkJoin } from 'rxjs';
 import { ContactModel } from '../models/contact.model';
 import { GroupModel } from '../models/group.model';
 
@@ -13,21 +13,20 @@ export class ContactService {
 
   constructor(private httpClient: HttpClient) { }
 
-  url = '/assets/mocks/db.json';
   serverUrl = 'http://localhost:8081/';
 
-  contactSubject: BehaviorSubject<any> = new BehaviorSubject<any>({ data: null, isFiltered: false, value : "", update: false });
-  contactSubjectObservable = this.contactSubject.asObservable();
+  private dataSubject: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   data: any;
-  data2: any;
-  update: boolean = false;
-  groups;
 
-  retrieveContactsAndFormatData(){
-    return this.httpClient.get(this.serverUrl + 'contacts').pipe(map(res => {
-      this.data = res;
-      return this.formatData(res);
-    }));
+  setData(data){
+    this.dataSubject.next(data);
+    this.data = data;
+  }
+
+  getContacts(){
+    if(this.dataSubject.getValue().length === 0)
+      this.fetchAPI();
+    return this.dataSubject.asObservable();
   }
 
   getGroups() {
@@ -38,74 +37,75 @@ export class ContactService {
     return this.httpClient.get(this.serverUrl + 'contacts');
   };
   
-  formatData(data){
-    let results = {}; 
+  fetchAPI(){
+    let getContacts = this.httpClient.get(this.serverUrl + '/contacts').toPromise();
+    let getGroups = this.httpClient.get(this.serverUrl + '/groups').toPromise();
     
-    for(let contact of data){
-      let letter;
-      contact.lastName ? letter = contact.lastName.charAt(0).toUpperCase() : letter = contact.firstName.charAt(0);
+    Promise.all([getContacts, getGroups]).then(res => {
+      this.data = { contacts: res[0], groups: res[1] };
+      this.setData(this.data);
+    });
+  }
 
+  formatData(data){
+    let results = []; 
+
+    for(let contact of data.contacts){  
+      let letter;
+      contact.lastName ? letter = contact.lastName.charAt(0).toUpperCase() : letter = contact.firstName.charAt(0).toUpperCase();
       if(!results[letter])
         results[letter] = [];
-      
-      results[letter].push({...contact, selected: false});    
+      results[letter].push(contact);    
     }
-    console.log(results)
-    return results;
-  };
-
-  setFiltering(value){
-    if(value.length > 0){
-      
-      let filtered = this.data.filter(x => {
-        return x.lastName ? x.lastName.toLowerCase().includes(value.toLowerCase()) || x.firstName.toLowerCase().includes(value.toLowerCase()) : x.firstName.toLowerCase().includes(value.toLowerCase());
-      })
-
-      let data = this.formatData(filtered);
-      
-      this.contactSubject.next({ data: data, isFiltered: true, value : value, update: false });
-    
-    }
-
-    else{
-      this.contactSubject.next({ isFiltered: false, value : value, update: false });
-    }
+    return results;  
+  }
   
-  };
+  filterContacts(event){
+    let value = event.target.value;
+    let results = [];
+    
+    results = this.data.contacts.filter(x => {
+      return x.lastName ? x.lastName.toLowerCase().includes(value.toLowerCase()) || 
+      x.firstName.toLowerCase().includes(value.toLowerCase()) : x.firstName.toLowerCase().includes(value.toLowerCase());
+    })
+    
+    if(event.target.id === 'searchbar ng-contact-search')
+      return results; 
+    
+    this.dataSubject.next({ ...this.dataSubject.value, contacts: results });
+  
+  }
   
   createContact(body: ContactModel){
-    return this.httpClient.post(this.serverUrl + 'contacts', body);
-  };
+    return this.httpClient.post(this.serverUrl + '/contacts/', body).pipe(tap(res => this.setData({...this.dataSubject.value, contacts: res })));
+  }
   
   deleteContactById(id){
-    return this.httpClient.delete(this.serverUrl + 'contacts/' + id);
-  };
+    return this.httpClient.delete(this.serverUrl + '/contacts/' + id);
+  }
 
   updateContact(id, body: ContactModel){
-    return this.httpClient.put((this.serverUrl + 'contacts/' + id), body);
-  };
+    return this.httpClient.put((this.serverUrl + '/contacts/' + id), body);
+  }
 
-  createGroup(body: GroupModel) {
+  createGroup(body){
+    return this.httpClient.post(this.serverUrl + '/groups/', body).pipe(tap(res => this.setData({...this.dataSubject.value, groups: res })));
+  }
+  
+  createGroup(body: GroupModel){
     return this.httpClient.post(this.serverUrl + 'groups', body);
   }
 
-  deleteGroupById(id) {
+  deleteGroupById(id){
     return this.httpClient.delete(this.serverUrl + 'groups/' + id);
   }
 
-  updateGroup(id, body:GroupModel) {
+  updateGroup(id, body:GroupModel){
     return this.httpClient.put((this.serverUrl + 'groups/' + id), body);
   }
 
-  deleteContactOnGroup(groupId, contactId) {
+  deleteContactOnGroup(groupId, contactId){
     return this.httpClient.delete(this.serverUrl + 'groups/' + groupId + '/contacts/' + contactId);
   }
 
-
-  notifyContactListComponent(value: boolean){
-    this.update = true;
-    this.contactSubject.next({...this.contactSubject.value, update: true});
-    this.update = false;
-  };
-
-};
+}

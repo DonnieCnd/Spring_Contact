@@ -19,7 +19,7 @@
         type="search" 
         placeholder="Search" 
         aria-label="Search"
-        (keyup)="filter($event.target.value)">
+        (keyup)="searchContacts($event)">
       </div>
     </div>
   </div>
@@ -68,7 +68,7 @@
   </ng-template>
   <!-- Display group modal -->
   <ng-template class="modal-dialog" #supp2Template>
-    <form class="" #contactForm="ngForm" (ngSubmit)="createOrUpdateContact()">
+    <form #contactForm="ngForm" (ngSubmit)="createOrUpdateContact()">
       <div class="modal-header">
         <h2>Group(s)</h2>
         <i style="font-size:22px" class="addGroup fa" id="add" aria-hidden="true" (click)="openNewGroupModal(supp3Template)" >&#xf067;</i>
@@ -215,7 +215,7 @@
   </ng-template>
   <!-- New Group Modal -->
   <ng-template class="modal-dialog" #supp3Template>
-    <form #groupForm="ngForm" (ngSubmit)="createGroup(groupModel); groupForm.reset()">
+    <form #contactForm="ngForm" (ngSubmit)="createGroup(groupModel);">
       <div class="modal-header">
         <h2>Create new group</h2>
       </div>
@@ -233,33 +233,34 @@
             <div class="input-icon form-group col-12">
               <label>Add contact</label>
               <span class="fa fa-search search-icon"></span>
-              <input id="searchbar" 
+              <input id="searchbar ng-contact-search"
               name="search"
               class="form-control mr-2 has-search" 
               type="search" 
               placeholder="Search" 
               aria-label="Search"
-              [(ngModel)]="searchTerm"
-              (keyup)="displayMatchingContacts(searchTerm)"
+              [(ngModel)]="query"
+              (keyup)="searchContacts($event)"
               (search)="resetSearchField()">
             </div>
-            <div class="matching-contacts-results row col-12" style="margin: auto" *ngIf="isFiltered">
-              <div *ngFor="let contact of matchingContacts" class="matched-contact col-12" (click)="log(contact)">
+            <div class="matching-contacts-results row col-12" style="margin: auto">
+              <div *ngFor="let contact of getMatchingContacts(); index as i" class="matched-contact col-12" (click)="toggleSelect(contact, $event)">
                 <div class="matched-contact-name">
                   <span class="firstName">{{ contact.firstName }}</span>
                   <strong style="margin-left: 5px;">{{ contact.lastName }}</strong>
                 </div>
               </div>  
             </div>
-
-            <div class="group-contacts-results row col-12" style="margin: auto" *ngIf="selectedContacts.length > 0">
-              <div *ngFor="let contact of selectedContacts" class="groupContact col-12" >
+            
+            <div class="group-contacts-results row col-12" style="margin: auto">
+              <div *ngFor="let contact of groupModel.contacts; index as i" class="groupContact col-12">
                 <div class="group-contact-name">
+                  
                   <span class="firstName">{{ contact.firstName }}</span>
                   <strong style="margin-left: 5px;">{{ contact.lastName }}</strong>
                 </div>
                 <div class="group-contact-delete">
-                  <i class="fa fa-window-close" aria-hidden="true" (click)="deleteSelectedContact(contact.id)"></i>
+                  <i class="fa fa-window-close" aria-hidden="true" (click)="deselectContact(contact)"></i>
                 </div>
               </div>
             </div>
