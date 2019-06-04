@@ -33,17 +33,18 @@ public class GroupController {
     }
 
     @PutMapping("/groups/{id}")
-    public List<GroupEntity> updateGroup(@RequestBody GroupEntity groupEntity,@PathVariable Long id ){
+    public List<GroupEntity> updateGroup(@RequestBody GroupEntity groupEntity, @PathVariable Long id ){
         groupService.updateGroup(groupEntity, id);
         return groupService.retrieveAllGroups();
     }
+
     @DeleteMapping("/groups/{id}")
     public void deleteGroup(@PathVariable Long id){
         groupService.deleteGroup(id);
     }
 
     @DeleteMapping("/groups/{groupId}/contacts/{contactId}")
-    public List<GroupEntity> deleteContactGroup(@PathVariable Long groupId, @PathVariable Long contactId){
+    public List<GroupEntity> deleteContactGroup(@PathVariable Long groupId, @PathVariable Long contactId) {
         groupService.deleteContactGroup(groupId, contactId);
         return groupService.retrieveAllGroups();
     }
