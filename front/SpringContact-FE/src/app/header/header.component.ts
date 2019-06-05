@@ -70,8 +70,8 @@ export class HeaderComponent implements OnInit {
     // contact.selected = true;
     this.selectContact(contact);
     
-    // if(this.getMatchingContacts().length === 0)
-    //   this.data = {...this.data, contacts: this.contactService.filterContacts({ target: { id: 'searchbar ng-contact-search', value: ''}})};
+    if(this.getMatchingContacts().length === 0)
+      this.data = {...this.data, contacts: this.contactService.filterContacts({ target: { id: 'searchbar ng-contact-search', value: ''}})};
     
   }
   
@@ -118,7 +118,7 @@ export class HeaderComponent implements OnInit {
     updateGroup(id, body){
       body.contacts = this.groupModel.contacts;
       console.log(body)
-      this.contactService.updateContact(id, body).subscribe(res => {
+      this.contactService.updateGroup(id, body).subscribe(res => {
         console.log("ok",res),
         (err) => {
           console.log("error", err)
