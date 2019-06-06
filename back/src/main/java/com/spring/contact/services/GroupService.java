@@ -40,22 +40,20 @@ public class GroupService {
         return groupRepository.findAll();
     }
 
-    @Transactional
     public void updateGroup(GroupEntity groupEntity, Long id) {
         Optional<GroupEntity> optionalGroupEntity = groupRepository.findById(id);
         if(optionalGroupEntity.isPresent()){
-            GroupEntity group = optionalGroupEntity.get();
-            group.setName(groupEntity.getName());
-            groupRepository.save(group);
+            groupRepository.save(groupEntity);
         }
     }
 
     @Transactional
-    public void deleteContactGroup(Long groupId, Long contactId){
+    public void deleteContactGroup(Long groupId, Long contactId) {
         Optional<GroupEntity> optionalGroupEntity = groupRepository.findById(groupId);
-        if(optionalGroupEntity.isPresent()){
+        if (optionalGroupEntity.isPresent()) {
             ContactEntity contact = entityManager.find(ContactEntity.class, contactId);
             optionalGroupEntity.get().getContacts().remove(contact);
         }
     }
+    
 }
