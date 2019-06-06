@@ -55,5 +55,5 @@ public class GroupService {
             optionalGroupEntity.get().getContacts().remove(contact);
         }
     }
-    
+
 }

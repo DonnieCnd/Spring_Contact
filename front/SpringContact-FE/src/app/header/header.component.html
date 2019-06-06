@@ -118,7 +118,7 @@
                       placeholder="Search" 
                       aria-label="Search"
                       [(ngModel)]="searchTerm"
-                      (keyup)="searchContacts($event)"
+                      (keyup)="searchContacts($event.target.value)"
                       (search)="resetSearchField()">
                     </div>
                     <div class="matching-contacts-results row col-12" style="margin: auto">
@@ -262,10 +262,10 @@
               aria-label="Search"
               [(ngModel)]="query"
               (keyup)="searchContacts($event)"
-              (search)="resetSearchField()">
+              (search)="resetSearchField($event)">
             </div>
             <div class="matching-contacts-results row col-12" style="margin: auto">
-              <div *ngFor="let contact of getMatchingContacts(); index as i" class="matched-contact col-12" (click)="toggleSelect(contact, $event)">
+              <div *ngFor="let contact of compare(); index as i" class="matched-contact col-12" (click)="selectContact(contact, $event)">
                 <div class="matched-contact-name">
                   <span class="firstName">{{ contact.firstName }}</span>
                   <strong style="margin-left: 5px;">{{ contact.lastName }}</strong>
@@ -274,7 +274,7 @@
             </div>
             
             <div class="group-contacts-results row col-12" style="margin: auto">
-              <div *ngFor="let contact of groupModel.contacts; index as i" class="groupContact col-12">
+              <div *ngFor="let contact of groupModel?.contacts; index as i" class="groupContact col-12">
                 <div class="group-contact-name">
                   
                   <span class="firstName">{{ contact.firstName }}</span>

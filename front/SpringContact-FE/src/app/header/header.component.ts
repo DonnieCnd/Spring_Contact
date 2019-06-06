@@ -13,7 +13,8 @@ import { GroupModel } from '../contact/models/group.model';
 export class HeaderComponent implements OnInit {
 
   contactModel = new ContactModel();
-  groupModel = new GroupModel();
+  groupModel : GroupModel = new GroupModel();
+  contacts = new GroupModel().contacts = []; 
   modalSup: BsModalRef;
   modalRef: BsModalRef;
   modalRef2: BsModalRef;
@@ -21,6 +22,7 @@ export class HeaderComponent implements OnInit {
   modalRef4: BsModalRef;
   modalRef5: BsModalRef;
   data: any;
+  filtered: any;
 
 
   constructor(private _MODAL_SERVICE: BsModalService, private contactService: ContactService) { }
@@ -30,62 +32,59 @@ export class HeaderComponent implements OnInit {
   }
 
   retrieveData(){
-    this.contactService.getContacts().subscribe(res => {
-      if(!this.isEmpty(res)){
-        this.data = res;
-        this.data.contacts = this.data.contacts
-        // .map(x => { return { ...x, selected: false }})
-      }
-    })
+    this.contactService.getContacts().subscribe(res => this.data = res);
   }
 
-  isEmpty(obj){
-    return Object.keys(obj).length === 0;
-  }
+  // isEmpty(obj){
+  //   return Object.keys(obj).length === 0;
+  // }
   
+  // searchContacts(event){
+  //   if(event.target.id === 'searchbar ng-contact-search'){
+  //     let results = this.contactService.filterContacts(event);
+  //     this.data = { ...this.data, contacts: results };  
+  //   } else{
+  //       this.contactService.filterContacts(event);
+  //     }
+  // }
+
+
   searchContacts(event){
     if(event.target.id === 'searchbar ng-contact-search'){
-      let results = this.contactService.filterContacts(event);
-      this.data = { ...this.data, contacts: results };  
-    } else {
-        this.contactService.filterContacts(event);
-      }
+      if(event.target.value.length > 0)
+        this.filtered = this.contactService.filterContacts(event.target.value);
+      else
+        this.filtered = this.data.contacts;
+    }
   }
-  
-  getMatchingContacts(){
-    if(!this.groupModel.contacts)
-      this.groupModel.contacts = [];
 
-    return this.data.contacts.filter(x => {
+  compare(){
+    if(!this.filtered || !this.groupModel.contacts){
+      return this.data.contacts;
+    }
+    
+    return this.filtered.filter(x => {
       for(let contact of this.groupModel.contacts){
         if(x.id === contact.id)
           return false;
       }
       return true;
     })
-  
   }
-    
-  toggleSelect(contact){
-    // contact.selected = true;
-    this.selectContact(contact);
-    
-    if(this.getMatchingContacts().length === 0)
-      this.data = {...this.data, contacts: this.contactService.filterContacts({ target: { id: 'searchbar ng-contact-search', value: ''}})};
-    
-  }
+
   
   selectContact(contact){
-    
     if(!this.groupModel.contacts)
       this.groupModel.contacts = [];
-    this.groupModel.contacts.push(contact);
-    console.log(this.data)
+    this.groupModel.contacts.push(contact);console.log(this.groupModel.contacts);
   }
   
   deselectContact(contact){
-    // contact.selected = false;
     this.groupModel.contacts = this.groupModel.contacts.filter(x => x.id !== contact.id);
+  }
+
+  resetSearchField(){
+    this.filtered = this.data.contacts;
   }
   
   addContact(template: TemplateRef<any>) {
@@ -95,25 +94,20 @@ export class HeaderComponent implements OnInit {
   createContact(body){
     this.contactService.createContact(body).subscribe(res => console.log("contact created with success !", res))
     this.modalSup.hide();
-    //   console.log('contact created with success', res);
-    // },
-    // (error) => {
-      //   console.log('an error occured during post request : ', error);
-      // })
-    }
+  }
 
-    updateContact(id, body){
-      this.contactService.updateContact(id, body).subscribe(res => console.log(res));
-    }
+  updateContact(id, body){
+    this.contactService.updateContact(id, body).subscribe(res => console.log(res));
+  }
     
-    createGroup(body){
-      console.log(this.groupModel)
-      this.contactService.createGroup(body).subscribe(res => {
-        console.log("group added with success", res);
-        this.groupModel.contacts = [];
-        this.modalRef2.hide();
-      })
-    }
+  createGroup(body){
+    console.log(this.groupModel)
+    this.contactService.createGroup(body).subscribe(res => {
+      console.log("group added with success", res);
+      this.groupModel.contacts = [];
+      this.modalRef2.hide();
+    })
+  }
 
     updateGroup(id, body){
       body.contacts = this.groupModel.contacts;

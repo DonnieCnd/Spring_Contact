@@ -16,7 +16,7 @@ export class ContactService {
   serverUrl = 'http://localhost:8081/';
 
   private dataSubject: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-  data: any;
+  private data: any;
 
   setData(data){
     this.dataSubject.next(data);
@@ -30,13 +30,13 @@ export class ContactService {
     return this.dataSubject.asObservable();
   }
 
-  getGroups() {
-    return this.httpClient.get(this.serverUrl + 'groups');
-  }
+  // getGroups() {
+  //   return this.httpClient.get(this.serverUrl + 'groups');
+  // }
 
-  getData(){
-    return this.httpClient.get(this.serverUrl + 'contacts');
-  };
+  // getData(){
+  //   return this.httpClient.get(this.serverUrl + 'contacts');
+  // };
   
   fetchAPI(){
     let getContacts = this.httpClient.get(this.serverUrl + '/contacts').toPromise();
@@ -49,13 +49,10 @@ export class ContactService {
   }
 
   formatData(data){
-    
-    let results = []; 
-
+    let results = [];
     for(let contact of data.contacts){  
       
-      let letter;
-      
+      let letter;    
       contact.lastName ? letter = contact.lastName.charAt(0).toUpperCase() : letter = contact.firstName.charAt(0).toUpperCase();
       
       if(!results[letter])
@@ -64,23 +61,15 @@ export class ContactService {
       results[letter].push(contact);    
     
     }
-    return results;  
-  
+    return results;
   }
   
-  filterContacts(event){
-    let value = event.target.value;
-    let results = [];
-    
-    results = this.data.contacts.filter(x => {
-      return x.lastName ? x.lastName.toLowerCase().includes(value.toLowerCase()) || 
-      x.firstName.toLowerCase().includes(value.toLowerCase()) : x.firstName.toLowerCase().includes(value.toLowerCase());
+  filterContacts(query){
+    return this.data.contacts.filter(x => { 
+      return x.lastName ? x.lastName.toLowerCase().includes(query.toLowerCase()) || 
+      x.firstName.toLowerCase().includes(query.toLowerCase()) : x.firstName.toLowerCase().includes(query.toLowerCase());
     })
-    
-    if(event.target.id === 'searchbar ng-contact-search')
-      return results; 
-    
-    this.dataSubject.next({ ...this.dataSubject.value, contacts: results });
+    // this.dataSubject.next({ ...this.dataSubject.value, contacts: results });
   }
   
   createContact(body: ContactModel){
