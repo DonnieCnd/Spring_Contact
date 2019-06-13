@@ -17,6 +17,7 @@ public class GroupEntity {
     @Column(name="GROUP_ID")
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long id;
+
     @NotNull
     private String name;
 

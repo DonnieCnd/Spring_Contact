@@ -1,3 +1,4 @@
+<p *ngIf="isEmpty()" style="margin-top: 5%; font-size: 25px;">Your contact list is empty, you may add some contacts 😃</p>
 <div *ngFor="let contact of data | keyvalue">
   <div class="letter"><strong>{{contact.key}}</strong></div>
     <br>

@@ -24,7 +24,7 @@ export class ContactListComponent implements OnInit {
     this.contactService.getContacts().subscribe(res => {
       if(res.contacts)
         this.data = this.contactService.formatData(res);
-    })
+      })
   }
 
   updateContact(id, body){
@@ -53,6 +53,11 @@ export class ContactListComponent implements OnInit {
 
   createOrUpdateContact() {
     this.modalRef.hide();
+  }
+
+  isEmpty(){
+    if(this.data)
+      return Object.keys(this.data).length === 0;
   }
   
 }

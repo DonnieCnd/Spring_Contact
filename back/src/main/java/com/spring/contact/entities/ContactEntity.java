@@ -19,9 +19,11 @@ public class ContactEntity {
 
     @NotNull
     private String firstName;
+
     private String lastName;
     private String email;
     private String phoneNumber;
+
     @ManyToMany(mappedBy = "contacts")
     @JsonIgnore
     private List<GroupEntity> groups;
