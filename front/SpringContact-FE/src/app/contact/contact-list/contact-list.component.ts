@@ -23,12 +23,18 @@ export class ContactListComponent implements OnInit {
   retrieveData(){
     this.contactService.getContacts().subscribe(res => {
       if(res.contacts)
-      this.data = this.contactService.formatData(res);
+        this.data = this.contactService.formatData(res);
     })
   }
 
   updateContact(id, body){
-    this.contactService.updateContact(id, body).subscribe(res => console.log(res));
+    this.contactService.updateContact(id, body).subscribe(res => console.log('contact with id: ' + id + 'updated with success !'));
+    this.modalRef.hide();
+  }
+
+  deleteContact(id){
+    this.contactService.deleteContactById(id).subscribe(res => console.log('contact with id: ' + id + 'deleted with success !'));
+    this.modalRef2.hide();
   }
   
   openContactCard(template: TemplateRef<any>) {
@@ -39,42 +45,14 @@ export class ContactListComponent implements OnInit {
     this.modalRef = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
   }
 
-    openDeleteModal(template: TemplateRef<any>) {
-      this.modalRef2 = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
-      this.modalRef.hide();
-      this.modalRef = null;
-    }
+  openDeleteModal(template: TemplateRef<any>) {
+    this.modalRef2 = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
+    this.modalRef.hide();
+    this.modalRef = null;
   }
-    
-      //   createOrUpdateContact() {
-      //     this.modalRef.hide();
-      //   }
-          
-          // updateContact(id, body) {
-            //   this.contactService.updateContact(id, body).subscribe(res => this.modalRef.hide());
-            
-            // }
-            
-            
-            
-            
-            // CRUD
-            
-            //   deleteContact(id){
-              //     this.contactService.deleteContactById(id).subscribe(res => {
-                //       this.getData(); 
-                //     });
-                //     this.modalRef2.hide();
-                //   }
-                
-                //   updateContact(id, body) {
-                  //     this.contactService.updateContact(id, body).subscribe(res => this.modalRef.hide());
-                  //   }
-                  
-                
-                    //  isEmpty(object){
-                    //     if(!object){
-                    //       return false;
-                    //     }
-                    //     return Object.keys(object).length === 0;
-                    //   }
+
+  createOrUpdateContact() {
+    this.modalRef.hide();
+  }
+  
+}

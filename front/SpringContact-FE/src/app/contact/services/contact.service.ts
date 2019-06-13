@@ -15,7 +15,7 @@ export class ContactService {
 
   serverUrl = 'http://localhost:8081/';
 
-  private dataSubject: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  public dataSubject: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   private data: any;
 
   setData(data){
@@ -30,14 +30,6 @@ export class ContactService {
     return this.dataSubject.asObservable();
   }
 
-  // getGroups() {
-  //   return this.httpClient.get(this.serverUrl + 'groups');
-  // }
-
-  // getData(){
-  //   return this.httpClient.get(this.serverUrl + 'contacts');
-  // };
-  
   fetchAPI(){
     let getContacts = this.httpClient.get(this.serverUrl + '/contacts').toPromise();
     let getGroups = this.httpClient.get(this.serverUrl + '/groups').toPromise();
@@ -51,25 +43,29 @@ export class ContactService {
   formatData(data){
     let results = [];
     for(let contact of data.contacts){  
-      
       let letter;    
       contact.lastName ? letter = contact.lastName.charAt(0).toUpperCase() : letter = contact.firstName.charAt(0).toUpperCase();
       
       if(!results[letter])
         results[letter] = [];
       
-      results[letter].push(contact);    
-    
+      results[letter].push(contact);     
     }
+    
     return results;
   }
   
-  filterContacts(query){
-    return this.data.contacts.filter(x => { 
+  filterContacts(query: string , global?: boolean){
+    let results = this.data.contacts.filter(x => { 
       return x.lastName ? x.lastName.toLowerCase().includes(query.toLowerCase()) || 
       x.firstName.toLowerCase().includes(query.toLowerCase()) : x.firstName.toLowerCase().includes(query.toLowerCase());
     })
-    // this.dataSubject.next({ ...this.dataSubject.value, contacts: results });
+
+    if(!global)
+      return results;
+
+    this.dataSubject.next({ ...this.dataSubject.value, contacts: results });
+    
   }
   
   createContact(body: ContactModel){

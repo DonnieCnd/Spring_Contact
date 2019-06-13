@@ -14,12 +14,13 @@
     <div class="col">
       <div class="input-icon">
         <span class="fa fa-search search-icon"></span>
-        <input id="searchbar" 
+        <input id="searchbar global-search" 
         class="form-control mr-sm-2 has-search" 
         type="search" 
         placeholder="Search" 
         aria-label="Search"
-        (keyup)="searchContacts($event)">
+        (keyup)="searchContacts($event)"
+        (search)="searchContacts($event)">
       </div>
     </div>
   </div>
@@ -111,18 +112,18 @@
                     <div class="input-icon form-group col-12">
                       <label>Add contact</label>
                       <span class="fa fa-search search-icon"></span>
-                      <input id="searchbar ng-contact-search" 
+                      <input id="searchbar group-contact-search" 
                       name="search"
                       class="form-control mr-2 has-search" 
                       type="search" 
                       placeholder="Search" 
                       aria-label="Search"
                       [(ngModel)]="searchTerm"
-                      (keyup)="searchContacts($event.target.value)"
-                      (search)="resetSearchField()">
+                      (keyup)="searchContacts($event)"
+                      (search)="searchContacts($event)">
                     </div>
                     <div class="matching-contacts-results row col-12" style="margin: auto">
-                      <div *ngFor="let contact of getMatchingContacts(); index as i" class="matched-contact col-12" (click)="toggleSelect(contact)">
+                      <div *ngFor="let contact of compare(); index as i" class="matched-contact col-12" (click)="selectContact(contact)">
                         <div class="matched-contact-name">
                           <span class="firstName">{{ contact.firstName }}</span>
                           <strong style="margin-left: 5px;">{{ contact.lastName }}</strong>
@@ -142,38 +143,6 @@
                         </div>
                       </div>
                     </div>
-                    <!-- <div class="matching-contacts-results row col-12" style="margin: auto" *ngIf="isFiltered">
-                      <div *ngFor="let contact of matchingContacts" class="matched-contact col-12" (click)="log(contact)">
-                        <div class="matched-contact-name">
-                          <span class="firstName">{{ contact.firstName }}</span>
-                          <strong style="margin-left: 5px;">{{ contact.lastName }}</strong>
-                        </div>
-                      </div>  
-                    </div> -->
-        
-                    <!-- <div class="group-contacts-results row col-12" style="margin: auto" *ngIf="selectedContacts.length > 0">
-                      <div *ngFor="let contact of selectedContacts" class="groupContact col-12">
-                        <div class="group-contact-name">
-                          <span class="firstName">{{ contact.firstName }}</span>
-                          <strong style="margin-left: 5px;">{{ contact.lastName }}</strong>
-                        </div>
-                        <div class="group-contact-delete">
-                          <i class="fa fa-window-close" aria-hidden="true" (click)="deleteContactOnGroup(group.id, contact.id)"></i>
-                        </div>
-                      </div>
-                    </div> -->
-
-                    <!-- <div class="group-contacts-found row col-12" style="margin: auto">
-                      <div *ngFor="let contact of group.contacts" class="groupContact col-12">
-                        <div class="group-contact-name">
-                          <span class="firstName">{{ contact.firstName }}</span>
-                          <strong style="margin-left: 5px;">{{ contact.lastName }}</strong>
-                        </div>
-                        <div class="group-contact-delete">
-                          <i class="fa fa-window-close" aria-hidden="true" (click)="deleteContactOnGroup(group.id, contact.id)"></i>
-                        </div>
-                      </div>
-                    </div> -->
                   </div>   
                 </fieldset>       
               </div>
@@ -254,7 +223,7 @@
             <div class="input-icon form-group col-12">
               <label>Add contact</label>
               <span class="fa fa-search search-icon"></span>
-              <input id="searchbar ng-contact-search"
+              <input id="searchbar group-contact-search"
               name="search"
               class="form-control mr-2 has-search" 
               type="search" 
@@ -262,7 +231,7 @@
               aria-label="Search"
               [(ngModel)]="query"
               (keyup)="searchContacts($event)"
-              (search)="resetSearchField($event)">
+              (search)="searchContacts($event)">
             </div>
             <div class="matching-contacts-results row col-12" style="margin: auto">
               <div *ngFor="let contact of compare(); index as i" class="matched-contact col-12" (click)="selectContact(contact, $event)">
