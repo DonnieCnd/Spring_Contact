@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import { ContactService } from '../services/contact.service';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { ContactService } from '../../services/contact.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 
 @Component({
@@ -58,6 +58,8 @@ export class ContactListComponent implements OnInit {
   isEmpty(){
     if(this.data)
       return Object.keys(this.data).length === 0;
+
+    return true;
   }
   
 }

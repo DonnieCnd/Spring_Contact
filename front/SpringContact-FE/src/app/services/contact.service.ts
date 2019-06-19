@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from "rxjs/operators";
-import { BehaviorSubject, forkJoin } from 'rxjs';
-import { ContactModel } from '../models/contact.model';
-import { GroupModel } from '../models/group.model';
+import { BehaviorSubject } from 'rxjs';
+import { ContactModel } from '../contact/models/contact.model';
+import { GroupModel } from '../contact/models/group.model';
 
 
 @Injectable({
@@ -34,10 +34,13 @@ export class ContactService {
     let getContacts = this.httpClient.get(this.serverUrl + '/contacts').toPromise();
     let getGroups = this.httpClient.get(this.serverUrl + '/groups').toPromise();
     
-    Promise.all([getContacts, getGroups]).then(res => {
-      this.data = { contacts: res[0], groups: res[1] };
-      this.setData(this.data);
-    });
+    Promise
+      .all([getContacts, getGroups]).then(res => {
+        this.data = { contacts: res[0], groups: res[1] };
+        this.setData(this.data);
+      })
+        .catch(err => console.error(err));
+  
   }
 
   formatData(data){

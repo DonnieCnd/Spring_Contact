@@ -35,9 +35,8 @@ public class GroupService {
         groupRepository.save(groupEntity);
     }
 
-    public List<GroupEntity> deleteGroup(Long id){
+    public void deleteGroup(Long id){
         groupRepository.deleteById(id);
-        return groupRepository.findAll();
     }
 
     public void updateGroup(GroupEntity groupEntity, Long id) {

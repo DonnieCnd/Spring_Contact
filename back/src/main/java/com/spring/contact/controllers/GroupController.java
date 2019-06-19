@@ -39,8 +39,9 @@ public class GroupController {
     }
 
     @DeleteMapping("/groups/{id}")
-    public void deleteGroup(@PathVariable Long id){
+    public List<GroupEntity> deleteGroup(@PathVariable Long id){
         groupService.deleteGroup(id);
+        return groupService.retrieveAllGroups();
     }
 
     @DeleteMapping("/groups/{groupId}/contacts/{contactId}")

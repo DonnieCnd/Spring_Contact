@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
-import { ContactService } from '../contact/services/contact.service';
+import { ContactService } from '../services/contact.service';
 import { ContactModel } from '../contact/models/contact.model';
 import { GroupModel } from '../contact/models/group.model';
 
@@ -44,7 +44,6 @@ export class HeaderComponent implements OnInit {
   }
 
   compare(){
-    
     if(!this.groupModel.contacts)
       this.groupModel.contacts = [];
 
@@ -118,8 +117,21 @@ export class HeaderComponent implements OnInit {
     this.modalRef4 = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
     this.modalRef.hide();
   }
+
+  openDeleteGroupModal(template: TemplateRef<any>) {
+    this.modalRef5 = this._MODAL_SERVICE.show(template, Object.assign({}, {class: 'modal-lg modal-primary'}));
+    this.modalRef4.hide();
+    this.modalRef4 = null;
+  }
+
+  deleteGroup(id) {
+    this.contactService.deleteGroupById(id).subscribe(
+      res => console.log('group with id ' + id + ' deleted with success !', res),
+      err => console.log('an error occured while deleting group with id ' + id, err))
+    this.modalRef5.hide();
+  }
   
-  deleteContactOnGroup (groupId, contactId) {
+  deleteContactOnGroup(groupId, contactId) {
     this.contactService.deleteContactOnGroup(groupId, contactId);
   }
   
